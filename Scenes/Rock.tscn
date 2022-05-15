@@ -4,26 +4,26 @@
 [ext_resource path="res://Sprites/Enemy/Rocks-Small.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Rock/Rock.gd" type="Script" id=3]
 
-[sub_resource type="AtlasTexture" id=1]
-flags = 4
-atlas = ExtResource( 2 )
-region = Rect2( 225, 75, 75, 75 )
-
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 125, 125, 125, 125 )
 
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 225, 75, 75, 75 )
+
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ SubResource( 1 ) ],
-"loop": true,
-"name": "Small",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 2 ) ],
 "loop": true,
 "name": "Big",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 1 ) ],
+"loop": true,
+"name": "Small",
 "speed": 5.0
 } ]
 
@@ -47,3 +47,5 @@ animation = "Big"
 shape = SubResource( 4 )
 
 [node name="Visibility" type="VisibilityNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="Visibility" to="." method="_on_Visibility_screen_exited"]
