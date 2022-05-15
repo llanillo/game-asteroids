@@ -39,15 +39,15 @@ private void HandlePlayerInput(float Delta)
 	{
 		_velocity.x += 1;
 	}
-	if (Input.IsActionPressed(("ui_left")))
+	else if (Input.IsActionPressed(("ui_left")))
 	{
 		_velocity.x -= 1;
 	}
-	if (Input.IsActionPressed(("ui_down")))
+	else if (Input.IsActionPressed(("ui_down")))
 	{
 		_velocity.y += 1;
 	}
-	if (Input.IsActionPressed(("ui_up")))
+	else if (Input.IsActionPressed(("ui_up")))
 	{
 		_velocity.y -= 1;
 	}
