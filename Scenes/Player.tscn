@@ -8,14 +8,14 @@
 
 [sub_resource type="SpriteFrames" id=16]
 animations = [ {
-"frames": [ ExtResource( 1 ) ],
-"loop": true,
-"name": "Still",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 1 ), ExtResource( 5 ), ExtResource( 4 ) ],
 "loop": true,
 "name": "Moving",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "Still",
 "speed": 5.0
 } ]
 
@@ -28,7 +28,7 @@ resource_name = "Fire Blink"
 length = 0.5
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Fire_Sprite:visible")
+tracks/0/path = NodePath("Burst_Sprite:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -43,7 +43,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=19]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Fire_Sprite:visible")
+tracks/0/path = NodePath("Burst_Sprite:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -62,26 +62,26 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Player_Sprite" type="AnimatedSprite" parent="."]
+[node name="Player_AnimSprite" type="AnimatedSprite" parent="."]
+rotation = -1.5708
 scale = Vector2( 0.4, 0.4 )
 frames = SubResource( 16 )
 animation = "Still"
 playing = true
 
-[node name="Fire_Sprite" type="Sprite" parent="."]
-position = Vector2( 0, 160 )
+[node name="Burst_Sprite" type="Sprite" parent="."]
+position = Vector2( 154, 0 )
+rotation = -1.5708
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 16 )
+rotation = -1.5708
 shape = SubResource( 17 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Fire_Anim" type="AnimationPlayer" parent="."]
+[node name="Burst_AnimPlayer" type="AnimationPlayer" parent="."]
 "anims/Fire Blink" = SubResource( 18 )
 anims/RESET = SubResource( 19 )
-
-[connection signal="body_entered" from="." to="." method="OnPlayerBodyEntered"]

@@ -6,112 +6,103 @@ public class Player : Area2D
 	[Export] private float _speed = 500;
 	[Signal] public delegate void HitSignal();
 	
-	private Vector2 _velocity;
+	private Vector2 _velocity = new Vector2();
 	private CollisionShape2D _collisionShape;
 	private Rect2 _mapLimit;
-	private AnimatedSprite _playerSprite;
-	private Sprite _fireSprite;
-	private AnimationPlayer _fireAnimation;
+	private AnimatedSprite _playerAnimatedSprite;
+	private Sprite _burstSprite;
+	private AnimationPlayer _burstAnimationPlayer;
+
+	[Export] private float _rotationSpeed = 4.5f;
+	private int _rotationDirection = 0;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_mapLimit = GetViewportRect();
-		_playerSprite = GetNode<AnimatedSprite>("Player_Sprite");
-		_fireAnimation = GetNode<AnimationPlayer>("Fire_Anim");
-		_fireSprite = GetNode<Sprite>("Fire_Sprite");
+		_playerAnimatedSprite = GetNode<AnimatedSprite>("Player_AnimSprite");
+		_burstAnimationPlayer = GetNode<AnimationPlayer>("Burst_AnimPlayer");
+		_burstSprite = GetNode<Sprite>("Burst_Sprite");
 		_collisionShape = GetNode<CollisionShape2D>("Collision");
 	}
 
-  // Called every frame. 'delta' is the elapsed time since the previous frame.
-  public override void _Process(float delta)
-  {
-	  HandlePlayerInput(delta);
-	  HandlePlayerRotation();
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _PhysicsProcess(float delta)
+	{
+		HandlePlayerInput();
+		HandlePlayerMovement(delta);
+	}
+
+	public override void _Process(float delta)
+	{
+	  
 	  HandlePlayerAnimation();
-  }
-
-private void HandlePlayerInput(float Delta)
-{
-	_velocity = new Vector2();
-  
-	if (Input.IsActionPressed("ui_right"))
-	{
-		_velocity.x += 1;
-	}
-	else if (Input.IsActionPressed(("ui_left")))
-	{
-		_velocity.x -= 1;
-	}
-	else if (Input.IsActionPressed(("ui_down")))
-	{
-		_velocity.y += 1;
-	}
-	else if (Input.IsActionPressed(("ui_up")))
-	{
-		_velocity.y -= 1;
 	}
 
-	if (_velocity.Length() > 0)
+	private void HandlePlayerInput()
 	{
+		_rotationDirection = 0;
+		_velocity = new Vector2();
+	  
+		if (Input.IsActionPressed("ui_right"))
+		{
+			_rotationDirection += 1;
+		}
+		else if (Input.IsActionPressed(("ui_left")))
+		{
+			_rotationDirection -= 1;
+		}
+		else if (Input.IsActionPressed(("ui_down")))
+		{
+			_velocity = new Vector2(_speed, 0).Rotated(Rotation);
+		}
+		else if (Input.IsActionPressed(("ui_up")))
+		{
+			_velocity = new Vector2(-_speed, 0).Rotated(Rotation);
+		}
+
 		_velocity = _velocity.Normalized() * _speed;
 	}
 
-	Position += _velocity * Delta;
+	private void HandlePlayerMovement(float delta)
+	{
+		Rotation += _rotationDirection * _rotationSpeed * delta;
+		
+		float xLimit = _mapLimit.End.x;
+		float yLimit = _mapLimit.End.y;
 
-	float xLimit = _mapLimit.End.x;
-	float yLimit = _mapLimit.End.y;
-  
-	Position = new Vector2(Mathf.Clamp(Position.x, 0, xLimit), Mathf.Clamp(Position.y, 0, yLimit));
-}
+		Position += _velocity * delta;
+		Position = new Vector2(Mathf.Clamp(Position.x, 0, xLimit), Mathf.Clamp(Position.y, 0, yLimit));
+	}
+	
+	private void HandlePlayerAnimation()
+	{
+		if (_velocity != Vector2.Zero)
+		{
+			_playerAnimatedSprite.Animation = "Moving";
+			_burstAnimationPlayer.Play("Fire Blink");
+		}
+		else
+		{
+			_playerAnimatedSprite.Animation = "Still";
+			_burstSprite.Visible = false;
+			_burstAnimationPlayer.Stop();
+		}
+	}
 
-private void HandlePlayerRotation()
-{
-	if (_velocity.x > 0)
-	{
-		RotationDegrees = 90;
-	}
-	else if (_velocity.x < 0)
-	{
-		RotationDegrees = -90;
-	}
-	else if (_velocity.y > 0)
-	{
-		RotationDegrees = -180;
-	}
-	else if (_velocity.y < 0)
-	{
-		RotationDegrees = 0;
-	}
-}
-private void HandlePlayerAnimation()
-{
-	if (_velocity != Vector2.Zero)
-	{
-		_playerSprite.Animation = "Moving";
-		_fireAnimation.Play("Fire Blink");
-	}
-	else
-	{
-		_playerSprite.Animation = "Still";
-		_fireSprite.Visible = false;
-		_fireAnimation.Stop();
-	}
-}
+	  private void OnPlayerBodyEntered(object body)
+	  {
+		  Hide();
+		  EmitSignal("HitSignal");
+		  _collisionShape.Disabled = true;
+	  }
 
-  private void OnPlayerBodyEntered(object body)
-  {
-	  Hide();
-	  EmitSignal("HitSignal");
-	  _collisionShape.Disabled = true;
-  }
-
-  private void RestartPosition(Vector2 Position)
-  {
-	  Show();
-	  this.Position = Position;
-	  _collisionShape.Disabled = false;
-  }
-}
+	  private void RestartPosition(Vector2 newPosition)
+	  {
+		  Show();
+		  this.Position = newPosition;
+		  _collisionShape.Disabled = false;
+	  }
+	}
 
 

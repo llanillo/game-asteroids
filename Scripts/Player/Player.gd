@@ -1,80 +1,70 @@
 extends Area2D
 
-export (int) var speed = 500
+export (int) var speed := 500
+export (int) var rotation_speed := 4.5
 
-var _velocity
-var _collision_shape
-var _mapLimit
-var _player_sprite
-var _fire_anim
-var _fire_sprite
+var velocity : Vector2
+var collision_shape : CollisionShape2D
+var map_limit : Vector2
+var player_anim_sprite : AnimatedSprite
+var burst_anim_player : AnimationPlayer
+var burst_sprite : Sprite
 
 signal hit_signal
+var rotation_direction : int
 
-# Llamada cuando el nodo entra en escena por primera vez
 func _ready():
-	_mapLimit = get_viewport_rect().size
-	_player_sprite = $Player_Sprite
-	_fire_anim = $Fire_Anim
-	_fire_sprite = $Fire_Sprite
-	_collision_shape = $Collision	
-	pass
+	map_limit = get_viewport_rect().size
+	player_anim_sprite = $Player_AnimSprite
+	burst_anim_player = $Burst_AnimPlayer
+	burst_sprite = $Burst_Sprite
+	collision_shape = $Collision	
 	
+func _physics_process(delta):
+	handle_player_movement(delta)
 	
-# Llamada cada frame. 'delta' es el tiempo transcurrido desde el último frame
 func _process(delta):
 	handle_player_input(delta)
-	handle_player_rotation()
 	handle_player_animation()
 
-# Controla el input del usuario
 func handle_player_input(delta):
-	_velocity = Vector2()
+	rotation_direction = 0
+	velocity = Vector2()
 	
 	if Input.is_action_pressed("ui_right"):
-		_velocity.x += 1
-	if Input.is_action_pressed("ui_left"):
-		_velocity.x -= 1
-	if Input.is_action_pressed("ui_down"):
-		_velocity.y += 1
-	if Input.is_action_pressed("ui_up"):
-		_velocity.y -= 1		
+		rotation_direction += 1
+	elif Input.is_action_pressed("ui_left"):
+		rotation_direction -= 1
+	elif Input.is_action_pressed("ui_down"):
+		velocity = Vector2(speed, 0).rotated(rotation)
+	elif Input.is_action_pressed("ui_up"):
+		velocity = Vector2(-speed, 0).rotated(rotation)
 		
-	if _velocity.length() > 0:
-		_velocity = _velocity.normalized() * speed
-
-	position += _velocity * delta
+	velocity = velocity.normalized() * speed
 	
-	position.x = clamp(position.x, 0, _mapLimit.x)
-	position.y = clamp(position.y, 0, _mapLimit.y)
+func handle_player_movement(delta):
+	rotation += rotation_direction * rotation_speed * delta
+	position += velocity * delta
 	
-# Maneja la rotación de la nave
-func handle_player_rotation():
-	if _velocity.x > 0:
-		set_rotation_degrees(90)
-	elif _velocity.x < 0:
-		set_rotation_degrees(-90)
-	elif _velocity.y > 0:
-		set_rotation_degrees(-180)
-	elif _velocity.y < 0:
-		set_rotation_degrees(0)
+	position.x = clamp(position.x, 0, map_limit.x)
+	position.y = clamp(position.y, 0, map_limit.y)
 	
 func handle_player_animation():
-	if _velocity != Vector2.ZERO:
-		_player_sprite.animation = "Moving"
-		_fire_anim.play("Fire Blink")
+	if velocity != Vector2.ZERO:
+		player_anim_sprite.animation = "Moving"
+		burst_anim_player.play("Fire Blink")
 	else:
-		_player_sprite.animation ="Still"
-		_fire_sprite.visible = false
-		_fire_anim.stop()
+		player_anim_sprite.animation ="Still"
+		burst_sprite.visible = false
+		burst_anim_player.stop()
 	
 func _on_Player_body_entered(body):
 	hide()
 	emit_signal("hit_signal")
-	_collision_shape.disabled = true
+	collision_shape.disabled = true
 
 func restartPosition(pos):
 	position = pos
 	show()
-	_collision_shape.disabled = false
+	collision_shape.disabled = false
 	
