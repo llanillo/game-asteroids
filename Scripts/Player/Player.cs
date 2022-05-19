@@ -25,6 +25,8 @@ public class Player : Area2D
 		_burstAnimationPlayer = GetNode<AnimationPlayer>("Burst_AnimPlayer");
 		_burstSprite = GetNode<Sprite>("Burst_Sprite");
 		_collisionShape = GetNode<CollisionShape2D>("Collision");
+
+		Connect("body_entered", this, "OnPlayerBodyEntered");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -94,7 +96,8 @@ public class Player : Area2D
 	{
 	  Hide();
 	  EmitSignal("HitSignal");
-	  _collisionShape.Disabled = true;
+	  // _collisionShape.Disabled = true;
+	  _collisionShape.SetDeferred("Disabled", false);
 	}
 
 	public void RestartPosition(Vector2 newPosition)

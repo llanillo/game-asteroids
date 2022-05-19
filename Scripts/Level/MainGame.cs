@@ -6,8 +6,9 @@ public class MainGame : Node
 
     [Export] private PackedScene _rockScene;
 
-    private Player _player;
+    private UserInterface _userInterface;
     private Position2D _startPosition;
+    private Player _player;
     
     private Timer _startTimer;
     private Timer _scoreTimer;
@@ -27,11 +28,14 @@ public class MainGame : Node
         _startTimer = GetNode<Timer>("Start_Timer");
         _scoreTimer = GetNode<Timer>("Score_Timer");
         _rockTimer = GetNode<Timer>("Rock_Timer");
+        _userInterface = GetNode<UserInterface>("Canvas");
         _rockPathFollow = GetNode<PathFollow2D>("Rock_Path/Rock_PathFollow");
         
         _startTimer.Connect("timeout", this, "OnStartTimerTimeout");
         _scoreTimer.Connect("timeout", this, "OnScoreTimerTimeout");
         _rockTimer.Connect("timeout", this, "OnRockTimerTimeout");
+        _userInterface.Connect("StartGame", this, "RestartGame"); // Connects play button pressed to restart game
+        _player.Connect("HitSignal", this, "GameOver"); // Connects player hitting rock signal to game over
     }
 
     private void RestartGame()
@@ -39,12 +43,15 @@ public class MainGame : Node
         _score = 0;
         _player.RestartPosition(_startPosition.Position);
         _startTimer.Start();
+        _userInterface.ShowMessage("Get Ready");
+        _userInterface.UpdateScore(_score);
     }
 
     private void GameOver()
     {
         _scoreTimer.Stop();
         _rockTimer.Stop();
+        _userInterface.GameOver();
     }
 
     private void OnStartTimerTimeout()
@@ -56,6 +63,7 @@ public class MainGame : Node
     private void OnScoreTimerTimeout()
     {
         _score += 1;
+        _userInterface.UpdateScore(_score);
     }
 
     private void OnRockTimerTimeout()
