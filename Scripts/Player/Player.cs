@@ -19,6 +19,7 @@ public class Player : Area2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		Hide();
 		_mapLimit = GetViewportRect();
 		_playerAnimatedSprite = GetNode<AnimatedSprite>("Player_AnimSprite");
 		_burstAnimationPlayer = GetNode<AnimationPlayer>("Burst_AnimPlayer");
@@ -35,8 +36,7 @@ public class Player : Area2D
 
 	public override void _Process(float delta)
 	{
-	  
-	  HandlePlayerAnimation();
+		HandlePlayerAnimation();
 	}
 
 	private void HandlePlayerInput()
@@ -90,19 +90,19 @@ public class Player : Area2D
 		}
 	}
 
-	  private void OnPlayerBodyEntered(object body)
-	  {
-		  Hide();
-		  EmitSignal("HitSignal");
-		  _collisionShape.Disabled = true;
-	  }
-
-	  private void RestartPosition(Vector2 newPosition)
-	  {
-		  Show();
-		  this.Position = newPosition;
-		  _collisionShape.Disabled = false;
-	  }
+	private void OnPlayerBodyEntered(object body)
+	{
+	  Hide();
+	  EmitSignal("HitSignal");
+	  _collisionShape.Disabled = true;
 	}
+
+	public void RestartPosition(Vector2 newPosition)
+	{
+	  Show();
+	  this.Position = newPosition;
+	  _collisionShape.Disabled = false;
+	}
+}
 
 

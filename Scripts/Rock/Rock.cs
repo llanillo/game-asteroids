@@ -4,8 +4,8 @@ using System;
 public class Rock : RigidBody2D
 {
 
-	[Export] private int _minSpeed = 150;
-	[Export] private int _maxSpeed = 250;
+	[Export] public int MinSpeed { get; private set; } = 150;
+	[Export] public int MaxSpeed { get; private set; } = 250;
 
 	private const float BigRockScale = 1.6f;
 	private readonly string[] _rockType = { "Big", "Small" };
