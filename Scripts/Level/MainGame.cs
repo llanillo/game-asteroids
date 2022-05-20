@@ -4,7 +4,8 @@ using System;
 public class MainGame : Node
 {
 
-    [Export] private PackedScene _rockScene;
+    [Export] private PackedScene _smallRockScene;
+    [Export] private PackedScene _bigRockScene;
 
     private UserInterface _userInterface;
     private Position2D _startPosition;
@@ -76,17 +77,17 @@ public class MainGame : Node
         _rockPathFollow.Offset = GD.Randi();
 
         // Null propagation syntax and pattern matching
-        if (!(_rockScene?. Instance() is Rock rockInstance)) return;
+        // if (!(_rockScene?. Instance() is Rock rockInstance)) return;
         
-        AddChild(rockInstance);
-
-        float minSpeed = rockInstance.MinSpeed;
-        float maxSpeed = rockInstance.MaxSpeed;
-        
-        rockInstance.Position = _rockPathFollow.Position;
-        rockInstance.Rotation = (float) rockFinalRotation;
-        
-        // Rotated at the end makes the rock instance points the same direction we rotated it
-        rockInstance.LinearVelocity = new Vector2((float) GD.RandRange(minSpeed, maxSpeed), 0).Rotated((float) rockFinalRotation);
+        // AddChild(rockInstance);
+        //
+        // float minSpeed = rockInstance.MinSpeed;
+        // float maxSpeed = rockInstance.MaxSpeed;
+        //
+        // rockInstance.Position = _rockPathFollow.Position;
+        // rockInstance.Rotation = (float) rockFinalRotation;
+        //
+        // // Rotated at the end makes the rock instance points the same direction we rotated it
+        // rockInstance.LinearVelocity = new Vector2((float) GD.RandRange(minSpeed, maxSpeed), 0).Rotated((float) rockFinalRotation);
     }
 }

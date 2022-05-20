@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Fonts/Hyperspace/Hyperspace Bold.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scripts/Level/UserInterface.cs" type="Script" id=2]
@@ -16,6 +16,22 @@ font_data = ExtResource( 1 )
 [sub_resource type="DynamicFont" id=3]
 size = 34
 font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 1, 1, 1, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.486275, 0.486275, 0.486275, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0, 0, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 1, 1, 1, 1 )
 
 [node name="Canvas" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -55,6 +71,9 @@ margin_top = -200.0
 margin_right = 100.0
 margin_bottom = -100.0
 custom_fonts/font = SubResource( 3 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/normal = SubResource( 4 )
 text = "Play"
 
 [node name="Message_Timer" type="Timer" parent="."]

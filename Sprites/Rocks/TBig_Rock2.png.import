@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Rocks-Big.png-9ac683da3056a74394cb0ee7a16064bb.stex"
+path="res://.import/TBig_Rock2.png-4c2f5037e710e1d2cad11a39b142bd2f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Enemy/Rocks-Big.png"
-dest_files=[ "res://.import/Rocks-Big.png-9ac683da3056a74394cb0ee7a16064bb.stex" ]
+source_file="res://Sprites/Rocks/TBig_Rock2.png"
+dest_files=[ "res://.import/TBig_Rock2.png-4c2f5037e710e1d2cad11a39b142bd2f.stex" ]
 
 [params]
 
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=false
+detect_3d=true
 svg/scale=1.0
