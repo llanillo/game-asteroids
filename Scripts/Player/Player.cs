@@ -50,15 +50,15 @@ public class Player : Area2D
 		{
 			_rotationDirection += 1;
 		}
-		else if (Input.IsActionPressed(("ui_left")))
+		if (Input.IsActionPressed(("ui_left")))
 		{
 			_rotationDirection -= 1;
 		}
-		else if (Input.IsActionPressed(("ui_down")))
+		if (Input.IsActionPressed(("ui_down")))
 		{
 			_velocity = new Vector2(_speed, 0).Rotated(Rotation);
 		}
-		else if (Input.IsActionPressed(("ui_up")))
+		if (Input.IsActionPressed(("ui_up")))
 		{
 			_velocity = new Vector2(-_speed, 0).Rotated(Rotation);
 		}
