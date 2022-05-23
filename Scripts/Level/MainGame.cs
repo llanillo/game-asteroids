@@ -77,18 +77,21 @@ public class MainGame : Node
 		_rockPathFollow.Offset = GD.Randi();
 
 		// Null propagation syntax and pattern matching
-		// if (!(_rockScene?. Instance() is Rock rockInstance)) return;
+		if (_bigRockScene is null || _smallRockScene is null) return;
+		if (!(_smallRockScene?. Instance() is Rock rockInstance) && !(_bigRockScene?.Instance() is BigRock bigRockInstance)) return;
+
+		BigRock bigRockInstance = _bigRockScene.Instance() as BigRock;
+		Rock smallRockInstance = _smallRockScene.Instance() as Rock;
+		AddChild(rockInstance);
 		
-		// AddChild(rockInstance);
-		//
-		// float minSpeed = rockInstance.MinSpeed;
-		// float maxSpeed = rockInstance.MaxSpeed;
-		//
-		// rockInstance.Position = _rockPathFollow.Position;
-		// rockInstance.Rotation = (float) rockFinalRotation;
-		//
-		// // Rotated at the end makes the rock instance points the same direction we rotated it
-		// rockInstance.LinearVelocity = new Vector2((float) GD.RandRange(minSpeed, maxSpeed), 0).Rotated((float) rockFinalRotation);
-		// rockInstance.AssignLinearVelocity((float) rockFinalRotation);
+		float minSpeed = rockInstance.MinSpeed;
+		float maxSpeed = rockInstance.MaxSpeed;
+		
+		rockInstance.Position = _rockPathFollow.Position;
+		rockInstance.Rotation = (float) rockFinalRotation;
+		
+		// Rotated at the end makes the rock instance points the same direction we rotated it
+		rockInstance.LinearVelocity = new Vector2((float) GD.RandRange(minSpeed, maxSpeed), 0).Rotated((float) rockFinalRotation);
+		rockInstance.AssignLinearVelocity((float) rockFinalRotation);
 	}
 }
