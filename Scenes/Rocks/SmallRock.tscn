@@ -30,6 +30,8 @@ radius = 32.0
 collision_layer = 0
 gravity_scale = 0.0
 script = ExtResource( 2 )
+MinSpeed = 200
+MaxSpeed = 300
 
 [node name="AnimSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.2, 0.2 )
