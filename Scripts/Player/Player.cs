@@ -1,20 +1,24 @@
 using Godot;
 using System;
 
-public class Player : Area2D
+public class Player : KinematicBody2D
 {
+	[Export] private float _rotationSpeed = 4.5f;
 	[Export] private float _speed = 500;
 	[Signal] public delegate void HitSignal();
 	
-	private Vector2 _velocity = new Vector2();
+	private Vector2 _velocity = Vector2.Zero;
 	private CollisionShape2D _collisionShape;
+	private Area2D _area2D;
 	private Rect2 _mapLimit;
 	private AnimatedSprite _playerAnimatedSprite;
 	private Sprite _burstSprite;
 	private AnimationPlayer _burstAnimationPlayer;
 
-	[Export] private float _rotationSpeed = 4.5f;
 	private int _rotationDirection = 0;
+
+	private const float Acceleration = 0.2f;
+	private const float Friction = 0.02f;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -24,16 +28,17 @@ public class Player : Area2D
 		_playerAnimatedSprite = GetNode<AnimatedSprite>("Player_AnimSprite");
 		_burstAnimationPlayer = GetNode<AnimationPlayer>("Burst_AnimPlayer");
 		_burstSprite = GetNode<Sprite>("Burst_Sprite");
-		_collisionShape = GetNode<CollisionShape2D>("Collision");
+		_collisionShape = GetNode<CollisionShape2D>("Area2D/Collision");
+		_area2D = GetNode<Area2D>("Area2D");
 
-		Connect("body_entered", this, "OnPlayerBodyEntered");
+		_area2D.Connect("body_entered", this, "OnPlayerBodyEntered");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(float delta)
 	{
-		HandlePlayerInput();
-		HandlePlayerMovement(delta);
+		Vector2 inputVelocity = HandlePlayerInput();
+		HandlePlayerMovement(delta, inputVelocity);
 	}
 
 	public override void _Process(float delta)
@@ -41,10 +46,10 @@ public class Player : Area2D
 		HandlePlayerAnimation();
 	}
 
-	private void HandlePlayerInput()
+	private Vector2 HandlePlayerInput()
 	{
+		Vector2 inputVelocity = Vector2.Zero;
 		_rotationDirection = 0;
-		_velocity = new Vector2();
 	  
 		if (Input.IsActionPressed("ui_right"))
 		{
@@ -56,24 +61,26 @@ public class Player : Area2D
 		}
 		if (Input.IsActionPressed(("ui_down")))
 		{
-			_velocity = new Vector2(0, _speed).Rotated(Rotation);
+			inputVelocity = new Vector2(0, _speed).Rotated(Rotation);
 		}
 		if (Input.IsActionPressed(("ui_up")))
 		{
-			_velocity = new Vector2(0, -_speed).Rotated(Rotation);
+			inputVelocity = new Vector2(0, -_speed).Rotated(Rotation);
 		}
 
-		_velocity = _velocity.Normalized() * _speed;
+		return inputVelocity.Normalized() * _speed;
 	}
 
-	private void HandlePlayerMovement(float delta)
+	private void HandlePlayerMovement(float delta, Vector2 inputVelocity)
 	{
 		Rotation += _rotationDirection * _rotationSpeed * delta;
+
+		_velocity = inputVelocity.Length() > 0 ? _velocity.LinearInterpolate(inputVelocity, Acceleration) : _velocity.LinearInterpolate(Vector2.Zero, Friction);
+		_velocity = MoveAndSlide(_velocity);
 		
+		// Limits player position to map boundaries
 		float xLimit = _mapLimit.End.x;
 		float yLimit = _mapLimit.End.y;
-
-		Position += _velocity * delta;
 		Position = new Vector2(Mathf.Clamp(Position.x, 0, xLimit), Mathf.Clamp(Position.y, 0, yLimit));
 	}
 	
@@ -96,7 +103,6 @@ public class Player : Area2D
 	{
 	  Hide();
 	  EmitSignal("HitSignal");
-	  // _collisionShape.Disabled = true;
 	  _collisionShape.SetDeferred("Disabled", false);
 	}
 
