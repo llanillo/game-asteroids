@@ -63,20 +63,17 @@ __meta__ = {
 }
 
 [node name="Player_AnimSprite" type="AnimatedSprite" parent="."]
-rotation = -1.5708
 scale = Vector2( 0.4, 0.4 )
 frames = SubResource( 16 )
 animation = "Still"
 playing = true
 
 [node name="Burst_Sprite" type="Sprite" parent="."]
-position = Vector2( 154, 0 )
-rotation = -1.5708
+position = Vector2( 0, 155 )
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-rotation = -1.5708
 shape = SubResource( 17 )
 __meta__ = {
 "_edit_group_": true

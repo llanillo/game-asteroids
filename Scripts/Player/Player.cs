@@ -56,11 +56,11 @@ public class Player : Area2D
 		}
 		if (Input.IsActionPressed(("ui_down")))
 		{
-			_velocity = new Vector2(_speed, 0).Rotated(Rotation);
+			_velocity = new Vector2(0, _speed).Rotated(Rotation);
 		}
 		if (Input.IsActionPressed(("ui_up")))
 		{
-			_velocity = new Vector2(-_speed, 0).Rotated(Rotation);
+			_velocity = new Vector2(0, -_speed).Rotated(Rotation);
 		}
 
 		_velocity = _velocity.Normalized() * _speed;
