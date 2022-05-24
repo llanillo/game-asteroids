@@ -7,13 +7,14 @@ public class Player : KinematicBody2D
 	[Export] private float _speed = 500;
 	[Signal] public delegate void HitSignal();
 	
-	private Vector2 _velocity = Vector2.Zero;
 	private CollisionShape2D _collisionShape;
+	private Vector2 _velocity = Vector2.Zero;
 	private Area2D _area2D;
 	private Rect2 _mapLimit;
+	
+	private AnimationPlayer _burstAnimationPlayer;
 	private AnimatedSprite _playerAnimatedSprite;
 	private Sprite _burstSprite;
-	private AnimationPlayer _burstAnimationPlayer;
 
 	private int _rotationDirection = 0;
 
@@ -23,7 +24,7 @@ public class Player : KinematicBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		Hide();
+		// Hide();
 		_mapLimit = GetViewportRect();
 		_playerAnimatedSprite = GetNode<AnimatedSprite>("Player_AnimSprite");
 		_burstAnimationPlayer = GetNode<AnimationPlayer>("Burst_AnimPlayer");
@@ -78,10 +79,11 @@ public class Player : KinematicBody2D
 		_velocity = inputVelocity.Length() > 0 ? _velocity.LinearInterpolate(inputVelocity, Acceleration) : _velocity.LinearInterpolate(Vector2.Zero, Friction);
 		_velocity = MoveAndSlide(_velocity);
 		
-		// Limits player position to map boundaries
+		// Limits player position to map boundaries with an offset
 		float xLimit = _mapLimit.End.x;
 		float yLimit = _mapLimit.End.y;
-		Position = new Vector2(Mathf.Clamp(Position.x, 0, xLimit), Mathf.Clamp(Position.y, 0, yLimit));
+		float offset = 20.0f;
+		Position = new Vector2(Mathf.Clamp(Position.x, offset, xLimit - offset), Mathf.Clamp(Position.y, offset, yLimit - offset));
 	}
 	
 	private void HandlePlayerAnimation()
