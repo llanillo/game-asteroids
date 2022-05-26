@@ -61,7 +61,8 @@ func handle_player_animation():
 func _on_Player_body_entered(body):
 	hide()
 	emit_signal("hit_signal")
-	collision_shape.disabled = true
+	collision_shape.set_deferred("disabled", true)
+#	collision_shape.disabled = true
 
 func restartPosition(pos):
 	position = pos

@@ -1,32 +1,13 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Sprites/Airship/Airship.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=2]
-[ext_resource path="res://Sprites/Airship/Fire_Particle.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/Airship/Airship2.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Airship/Airship1.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=1]
 
-[sub_resource type="CapsuleShape2D" id=20]
-
-[sub_resource type="SpriteFrames" id=16]
-animations = [ {
-"frames": [ ExtResource( 1 ), ExtResource( 5 ), ExtResource( 4 ) ],
-"loop": true,
-"name": "Moving",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 1 ) ],
-"loop": true,
-"name": "Still",
-"speed": 5.0
-} ]
-
-[sub_resource type="Animation" id=18]
-resource_name = "Fire Blink"
+[sub_resource type="Animation" id=3]
+resource_name = "Burst Blink"
 length = 0.5
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Burst_Sprite:visible")
+tracks/0/path = NodePath("Node_Player/Line_Burst:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -38,10 +19,10 @@ tracks/0/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=2]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Burst_Sprite:visible")
+tracks/0/path = NodePath("Node_Player/Line_Burst:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -53,43 +34,31 @@ tracks/0/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="CapsuleShape2D" id=17]
-radius = 51.0
-height = 154.0
-
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="Area2D"]
 scale = Vector2( 0.2, 0.2 )
-collision_layer = 0
-collision_mask = 0
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_group_": true
-}
+script = ExtResource( 1 )
 
-[node name="Collision" type="CollisionShape2D" parent="."]
-scale = Vector2( 1, 1 )
-shape = SubResource( 20 )
+[node name="Node_Player" type="Node2D" parent="."]
 
-[node name="Player_AnimSprite" type="AnimatedSprite" parent="."]
-scale = Vector2( 0.4, 0.4 )
-frames = SubResource( 16 )
-animation = "Still"
-playing = true
+[node name="Line_Body1" type="Line2D" parent="Node_Player"]
+points = PoolVector2Array( 95, 65, -95, 1, 95, -55 )
+width = 5.0
 
-[node name="Burst_Sprite" type="Sprite" parent="."]
-position = Vector2( 0, 155 )
-scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 3 )
+[node name="Line_Body2" type="Line2D" parent="Node_Player"]
+position = Vector2( 57, -47 )
+points = PoolVector2Array( 3, 2, 3, 102 )
+width = 5.0
 
-[node name="Burst_AnimPlayer" type="AnimationPlayer" parent="."]
-"anims/Fire Blink" = SubResource( 18 )
-anims/RESET = SubResource( 19 )
+[node name="Line_Burst" type="Line2D" parent="Node_Player"]
+position = Vector2( 75, -25 )
+points = PoolVector2Array( 0, -10, 68, 28, 0, 70, 0, 44, 28, 28, 0, 12, 0, -10 )
+width = 5.0
+joint_mode = 2
+begin_cap_mode = 2
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="AnimationPlayer_Burst" type="AnimationPlayer" parent="."]
+"anims/Burst Blink" = SubResource( 3 )
+anims/RESET = SubResource( 2 )
 
-[node name="Collision" type="CollisionShape2D" parent="Area2D"]
-scale = Vector2( 1, 1 )
-shape = SubResource( 17 )
-__meta__ = {
-"_edit_group_": true
-}
+[node name="CollisionPolygon" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -95, 1, 85, -59, 85, 61 )

@@ -1,20 +1,18 @@
 using Godot;
 using System;
 
-public class Player : KinematicBody2D
+public class Player : Area2D
 {
 	[Export] private float _rotationSpeed = 4.5f;
 	[Export] private float _speed = 500;
 	[Signal] public delegate void HitSignal();
 	
-	private CollisionShape2D _collisionShape;
+	private CollisionPolygon2D _collisionPolygon;
 	private Vector2 _velocity = Vector2.Zero;
-	private Area2D _area2D;
 	private Rect2 _mapLimit;
 	
 	private AnimationPlayer _burstAnimationPlayer;
-	private AnimatedSprite _playerAnimatedSprite;
-	private Sprite _burstSprite;
+	private Line2D _burstLine;
 
 	private int _rotationDirection = 0;
 
@@ -24,15 +22,13 @@ public class Player : KinematicBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		// Hide();
+		Hide();
 		_mapLimit = GetViewportRect();
-		_playerAnimatedSprite = GetNode<AnimatedSprite>("Player_AnimSprite");
-		_burstAnimationPlayer = GetNode<AnimationPlayer>("Burst_AnimPlayer");
-		_burstSprite = GetNode<Sprite>("Burst_Sprite");
-		_collisionShape = GetNode<CollisionShape2D>("Area2D/Collision");
-		_area2D = GetNode<Area2D>("Area2D");
+		_burstAnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer_Burst");
+		_burstLine = GetNode<Line2D>("Node_Player/Line_Burst");
+		_collisionPolygon = GetNode<CollisionPolygon2D>("CollisionPolygon");
 
-		_area2D.Connect("body_entered", this, "OnPlayerBodyEntered");
+		Connect("body_entered", this, "OnPlayerBodyEntered");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -62,11 +58,11 @@ public class Player : KinematicBody2D
 		}
 		if (Input.IsActionPressed(("ui_down")))
 		{
-			inputVelocity = new Vector2(0, _speed).Rotated(Rotation);
+			inputVelocity = new Vector2(_speed, 0).Rotated(Rotation);
 		}
 		if (Input.IsActionPressed(("ui_up")))
 		{
-			inputVelocity = new Vector2(0, -_speed).Rotated(Rotation);
+			inputVelocity = new Vector2(-_speed, 0).Rotated(Rotation);
 		}
 
 		return inputVelocity.Normalized() * _speed;
@@ -77,8 +73,8 @@ public class Player : KinematicBody2D
 		Rotation += _rotationDirection * _rotationSpeed * delta;
 
 		_velocity = inputVelocity.Length() > 0 ? _velocity.LinearInterpolate(inputVelocity, Acceleration) : _velocity.LinearInterpolate(Vector2.Zero, Friction);
-		_velocity = MoveAndSlide(_velocity);
-		
+		Position += _velocity * delta;
+
 		// Limits player position to map boundaries with an offset
 		float xLimit = _mapLimit.End.x;
 		float yLimit = _mapLimit.End.y;
@@ -88,15 +84,13 @@ public class Player : KinematicBody2D
 	
 	private void HandlePlayerAnimation()
 	{
-		if (_velocity != Vector2.Zero)
+		if (_velocity.Length() >= 40)
 		{
-			_playerAnimatedSprite.Animation = "Moving";
-			_burstAnimationPlayer.Play("Fire Blink");
+			_burstAnimationPlayer.Play("Burst Blink");
 		}
 		else
 		{
-			_playerAnimatedSprite.Animation = "Still";
-			_burstSprite.Visible = false;
+			_burstLine.Visible = false;
 			_burstAnimationPlayer.Stop();
 		}
 	}
@@ -105,14 +99,14 @@ public class Player : KinematicBody2D
 	{
 	  Hide();
 	  EmitSignal("HitSignal");
-	  _collisionShape.SetDeferred("Disabled", false);
+	  _collisionPolygon.SetDeferred("disabled", false);
 	}
 
 	public void RestartPosition(Vector2 newPosition)
 	{
 	  Show();
 	  this.Position = newPosition;
-	  _collisionShape.Disabled = false;
+	  _collisionPolygon.Disabled = false;
 	}
 }
 

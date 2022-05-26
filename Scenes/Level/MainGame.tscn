@@ -8,16 +8,13 @@
 
 [sub_resource type="Curve2D" id=6]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, -91.6115, -79.1239, 0, 0, 0, 0, 1022.12, -75.4884, 0, 0, 0, 0, 1014.84, 680.69, 0, 0, 0, 0, -87.9719, 684.325, 0, 0, 0, 0, -91.6115, -79.1239 )
+"points": PoolVector2Array( 0, 0, 0, 0, -91.6115, -79.1239, 0, 0, 0, 0, 1022.12, -75.4884, 0, 0, 0, 0, 1022.12, 702.502, 0, 0, 0, 0, -91.6114, 702.502, 0, 0, 0, 0, -91.6115, -79.1239 )
 }
 
 [node name="World" type="Node"]
 script = ExtResource( 2 )
 _smallRockScene = ExtResource( 5 )
 _bigRockScene = ExtResource( 3 )
-
-[node name="Player" parent="." instance=ExtResource( 1 )]
-visible = false
 
 [node name="Rock_Timer" type="Timer" parent="."]
 wait_time = 0.3
@@ -41,3 +38,5 @@ position = Vector2( -91.6115, -79.1239 )
 rotation = 0.00326487
 
 [node name="Canvas" parent="." instance=ExtResource( 4 )]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
