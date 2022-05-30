@@ -3,7 +3,7 @@ using Godot;
 public class Player : Area2D
 {
 	[Export] private PackedScene _bulletScene;
-	[Export] private float _bulletSpeed = 500.0f;
+	[Export] private float _bulletSpeed = 400.0f;
 	[Export] private float _rotationSpeed = 4.5f;
 	[Export] private float _speed = 500;
 	
