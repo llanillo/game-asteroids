@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public class BigRock : Rock
 {
@@ -7,6 +6,10 @@ public class BigRock : Rock
     [Export] private PackedScene _smallRockScene;
     [Export] private int _amountSmallRocks = 3;
     
+    /*
+     * Create a certain amount of small rocks with random impulse when
+     * player's bullet hit this rock
+     */
     public override void DestroyRock()
     {
         for (uint i = 0; i < _amountSmallRocks; i++)

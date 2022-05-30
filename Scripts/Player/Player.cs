@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public class Player : Area2D
 {
@@ -22,8 +21,9 @@ public class Player : Area2D
 	
 	private const float Acceleration = 0.2f;
 	private const float Friction = 0.02f;
+	private const int MinVelocityBurstAnimation = 40;
 	
-	private int _rotationDirection = 0;
+	private int _rotationDirection;
 
 	private bool _canShoot = true;
 	
@@ -42,7 +42,6 @@ public class Player : Area2D
 		Connect("body_entered", this, "OnPlayerBodyEntered");
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(float delta)
 	{
 		Vector2 inputVelocity = HandlePlayerMovementInput();
@@ -50,11 +49,16 @@ public class Player : Area2D
 		HandlePlayerShootingInput();
 	}
 
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(float delta)
 	{
 		HandlePlayerAnimation();
 	}
 
+	/*
+	 * Saves the player's input rotation direction.
+	 * Return a vector2 with player's direction multiply by speed
+	 */
 	private Vector2 HandlePlayerMovementInput()
 	{
 		Vector2 inputVelocity = Vector2.Zero;
@@ -80,6 +84,9 @@ public class Player : Area2D
 		return inputVelocity.Normalized() * _speed;
 	}
 
+	/*
+	 * Spawns a bullet and applies central impulse to it with player's current direction
+	 */
 	private void HandlePlayerShootingInput()
 	{
 		if ((_bulletScene is null) || !Input.IsActionPressed("ui_select") || !_canShoot) return;
@@ -94,6 +101,10 @@ public class Player : Area2D
 		_bulletTimer.Start();
 	}
 	
+	/*
+	 * Moves and rotates player according to its current direction and input velocity.
+	 * Also, limits player position to map boundaries with an offset
+	 */
 	private void HandlePlayerMovement(float delta, Vector2 inputVelocity)
 	{
 		Rotation += _rotationDirection * _rotationSpeed * delta;
@@ -101,16 +112,19 @@ public class Player : Area2D
 		_velocity = inputVelocity.Length() > 0 ? _velocity.LinearInterpolate(inputVelocity, Acceleration) : _velocity.LinearInterpolate(Vector2.Zero, Friction);
 		Position += _velocity * delta;
 
-		// Limits player position to map boundaries with an offset
 		float xLimit = _mapLimit.End.x;
 		float yLimit = _mapLimit.End.y;
 		float offset = 20.0f;
 		Position = new Vector2(Mathf.Clamp(Position.x, offset, xLimit - offset), Mathf.Clamp(Position.y, offset, yLimit - offset));
 	}
 	
+	/*
+	 * Handle player's burst animation, this will play only when
+	 * player's velocity is greater than the minimum velocity for animation
+	 */
 	private void HandlePlayerAnimation()
 	{
-		if (_velocity.Length() >= 40)
+		if (_velocity.Length() >= MinVelocityBurstAnimation)
 		{
 			_burstAnimationPlayer.Play("Burst Blink");
 		}
@@ -121,6 +135,9 @@ public class Player : Area2D
 		}
 	}
 
+	/*
+	 * Called on player body entered signal
+	 */
 	private void OnPlayerBodyEntered(object body)
 	{
 	  Hide();
@@ -135,6 +152,9 @@ public class Player : Area2D
 	  _collisionPolygon.Disabled = false;
 	}
 	
+	/*
+	 * Called on bullet timer timeout signal
+	 */
 	private void OnBulletTimerTimeout()
 	{
 		_canShoot = true;

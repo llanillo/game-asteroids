@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public class MainGame : Node
 {
@@ -17,7 +16,7 @@ public class MainGame : Node
 
 	private PathFollow2D _rockPathFollow;
 	
-	private int _score = 0;
+	private int _score;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -39,6 +38,9 @@ public class MainGame : Node
 		_player.Connect("HitSignal", this, "GameOver"); // Connects player hitting rock signal to game over
 	}
 
+	/*
+	 * Called on start game signal 
+	 */
 	private void RestartGame()
 	{
 		_score = 0;
@@ -48,6 +50,10 @@ public class MainGame : Node
 		_userInterface.UpdateScore(_score);
 	}
 
+	/*
+	 * Called on player's hit signal. This signal is emitted when any rock
+	 * hit the player
+	 */
 	private void GameOver()
 	{
 		_scoreTimer.Stop();
@@ -55,18 +61,27 @@ public class MainGame : Node
 		_userInterface.GameOver();
 	}
 
+	/*
+	 * Called on start timer timeout signal
+	 */
 	private void OnStartTimerTimeout()
 	{
 		_rockTimer.Start();
 		_scoreTimer.Start();
 	}
 
+	/*
+	 * Called on score timer timeout signal
+	 */
 	private void OnScoreTimerTimeout()
 	{
 		_score += 1;
 		_userInterface.UpdateScore(_score);
 	}
 
+	/*
+	 * Called on rock timer timeout signal
+	 */
 	private void OnRockTimerTimeout()
 	{
 		if (_bigRockScene is null || _smallRockScene is null) return;

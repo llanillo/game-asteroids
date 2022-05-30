@@ -30,7 +30,7 @@ public class Rock : RigidBody2D
 	}
 	
 	/*
-	 * Apply a central impulse to the rock with the given rotation
+	 * Apply a central impulse to the rock's rigidbody with the given rotation
 	 */
 	public void ApplyImpulse(float rotation)
 	{

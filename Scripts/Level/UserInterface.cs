@@ -1,7 +1,4 @@
 using Godot;
-using System;
-using System.Globalization;
-using System.Runtime.InteropServices.ComTypes;
 
 public class UserInterface : CanvasLayer
 {
@@ -14,6 +11,7 @@ public class UserInterface : CanvasLayer
     private Label _scoreLabel;
     private Timer _messageTimer;
     
+    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         _creditsVBox = GetNode<VBoxContainer>("Credits_VBox");
@@ -28,6 +26,9 @@ public class UserInterface : CanvasLayer
         _playButton.Connect("pressed", this, "OnPlayButtonPressed");
     }
 
+    /*
+     * Show the given message in the game GUI
+     */
     public void ShowMessage(string text)
     {
         _messageLabel.Text = text;
@@ -35,10 +36,13 @@ public class UserInterface : CanvasLayer
         _messageTimer.Start();
     }
 
+    /*
+     * Must be called when player dies. Resets and show label's messages
+     */
     public async void GameOver()
     {
         ShowMessage("Game Over");
-        await ToSignal(_messageTimer, "timeout"); // Wait for message timer timeout signal
+        await ToSignal(_messageTimer, "timeout"); // Wait for message timer timeout signal before continue
         _creditsVBox.Show();
         _playButton.Show();
         _messageLabel.Text = "Asteroids";
@@ -46,16 +50,25 @@ public class UserInterface : CanvasLayer
         _scoreLabel.Hide();
     }
 
+    /*
+     * Updates label score message
+     */
     public void UpdateScore(int points)
     {
         _scoreLabel.Text = points.ToString();
     }
 
+    /*
+     * Called on message timer timeout signal
+     */
     private void OnMessageTimerTimeout()
     {
         _messageLabel.Hide();
     }
 
+    /*
+     * Called on play button pressed signal
+     */
     private void OnPlayButtonPressed()
     {
         _creditsVBox.Hide();
