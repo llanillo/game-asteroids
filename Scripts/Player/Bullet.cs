@@ -3,19 +3,28 @@ using System;
 
 public class Bullet : RigidBody2D
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
 
-    // Called when the node enters the scene tree for the first time.
+    private VisibilityNotifier2D _visibilityNotifier;
+    
     public override void _Ready()
     {
+        _visibilityNotifier = GetNode<VisibilityNotifier2D>("VisibilityNotifier");
+        _visibilityNotifier.Connect("screen_exited", this, "OnScreenExited");
         
+        Connect("body_entered", this, "OnBulletBodyEntered");
     }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    private void OnBulletBodyEntered(Node body)
+    {
+        GD.Print("Se lalmo");
+        if (body is Rock rock)
+        {
+            rock.DestroyRock();
+        }
+    }
+    
+    private void OnScreenExited()
+    {
+        QueueFree();
+    }
 }

@@ -3,8 +3,11 @@ using System;
 
 public class Player : Area2D
 {
+	[Export] private PackedScene _bulletScene;
+	[Export] private float _bulletSpeed = 500.0f;
 	[Export] private float _rotationSpeed = 4.5f;
 	[Export] private float _speed = 500;
+	
 	[Signal] public delegate void HitSignal();
 	
 	private CollisionPolygon2D _collisionPolygon;
@@ -13,11 +16,16 @@ public class Player : Area2D
 	
 	private AnimationPlayer _burstAnimationPlayer;
 	private Line2D _burstLine;
-
-	private int _rotationDirection = 0;
-
+	
+	private Position2D _bulletSpawn;
+	private Timer _bulletTimer;
+	
 	private const float Acceleration = 0.2f;
 	private const float Friction = 0.02f;
+	
+	private int _rotationDirection = 0;
+
+	private bool _canShoot = true;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -27,15 +35,19 @@ public class Player : Area2D
 		_burstAnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer_Burst");
 		_burstLine = GetNode<Line2D>("Node_Player/Line_Burst");
 		_collisionPolygon = GetNode<CollisionPolygon2D>("CollisionPolygon");
-
+		
+		_bulletSpawn = GetNode<Position2D>("Bullet_Position");
+		_bulletTimer = GetNode<Timer>("Bullet_Timer");
+		_bulletTimer.Connect("timeout", this, "OnBulletTimerTimeout");
 		Connect("body_entered", this, "OnPlayerBodyEntered");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(float delta)
 	{
-		Vector2 inputVelocity = HandlePlayerInput();
+		Vector2 inputVelocity = HandlePlayerMovementInput();
 		HandlePlayerMovement(delta, inputVelocity);
+		HandlePlayerShootingInput();
 	}
 
 	public override void _Process(float delta)
@@ -43,7 +55,7 @@ public class Player : Area2D
 		HandlePlayerAnimation();
 	}
 
-	private Vector2 HandlePlayerInput()
+	private Vector2 HandlePlayerMovementInput()
 	{
 		Vector2 inputVelocity = Vector2.Zero;
 		_rotationDirection = 0;
@@ -68,6 +80,19 @@ public class Player : Area2D
 		return inputVelocity.Normalized() * _speed;
 	}
 
+	private void HandlePlayerShootingInput()
+	{
+		if ((_bulletScene is null) || !Input.IsActionPressed("ui_select") || !_canShoot) return;
+		
+		_canShoot = false;
+		Bullet bulletInstance = (Bullet) _bulletScene.Instance();
+		
+		GetTree().Root.AddChild(bulletInstance);
+		bulletInstance.Position = _bulletSpawn.GlobalPosition;
+		bulletInstance.ApplyCentralImpulse(- Transform.x.Normalized() * _bulletSpeed);
+		_bulletTimer.Start();
+	}
+	
 	private void HandlePlayerMovement(float delta, Vector2 inputVelocity)
 	{
 		Rotation += _rotationDirection * _rotationSpeed * delta;
@@ -108,6 +133,9 @@ public class Player : Area2D
 	  this.Position = newPosition;
 	  _collisionPolygon.Disabled = false;
 	}
+	
+	private void OnBulletTimerTimeout()
+	{
+		_canShoot = true;
+	}
 }
-
-

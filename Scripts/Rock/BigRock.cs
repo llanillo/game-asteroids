@@ -10,13 +10,11 @@ public class BigRock : Rock
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        Connect("body_entered", this, "OnBigRockBodyEntered");
+        // Connect("body_entered", this, "OnBigRockBodyEntered");
     }
-    
-    private void OnBigRockBodyEntered(Node body)
+
+    public override void DestroyRock()
     {
-        if (!(body is Bullet)) return;
-        
         for (uint i = 0; i < _amountSmallRocks; i++)
         {
             Rock smallRockInstance = _smallRockScene.Instance() as Rock;
@@ -27,6 +25,6 @@ public class BigRock : Rock
             smallRockInstance.AssignLinearVelocity((float) rockRotation);    
         }
         
+        base.DestroyRock();
     }
-
 }
