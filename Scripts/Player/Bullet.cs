@@ -14,14 +14,20 @@ public class Bullet : RigidBody2D
         Connect("body_entered", this, "OnBulletBodyEntered");
     }
 
+    /*
+     * Called on body entered signal from the rigidbody node
+     */
     private void OnBulletBodyEntered(Node body)
     {
-        if (body is Rock rock)
-        {
-            rock.DestroyRock();
-        }
+        if (!(body is Rock rock)) return;
+        
+        rock.DestroyRock();
+        QueueFree();
     }
     
+    /*
+     * Called on screen exited from visibility notifier node
+     */
     private void OnScreenExited()
     {
         QueueFree();

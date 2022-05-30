@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public class Rock : RigidBody2D
 {
@@ -20,6 +19,9 @@ public class Rock : RigidBody2D
 		SetRandomSprite(_rockTypes);
 	}
 
+	/*
+	 * Set a random sprite to the animated sprite node
+	 */
 	private void SetRandomSprite(string[] rockTypes)
 	{
 		GD.Randomize();
@@ -27,16 +29,25 @@ public class Rock : RigidBody2D
 		_rockAnimatedSprite.Animation = rockTypes[randomValue];
 	}
 	
-	public void AssignLinearVelocity(float rotation)
+	/*
+	 * Apply a central impulse to the rock with the given rotation
+	 */
+	public void ApplyImpulse(float rotation)
 	{
-		LinearVelocity = new Vector2((float) GD.RandRange(MinSpeed, MaxSpeed), 0).Rotated(rotation);
+		ApplyCentralImpulse(new Vector2((float) GD.RandRange(MinSpeed, MaxSpeed), 0).Rotated(rotation));
 	}
 	
+	/*
+	* Called on screen exited from visibility notifier node
+	*/
 	private void OnScreenExited()
 	{
 		QueueFree();
 	}
 
+	/*
+	* Called when player's bullet hit this rock
+	*/
 	public virtual void DestroyRock()
 	{
 		QueueFree();

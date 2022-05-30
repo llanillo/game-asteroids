@@ -85,9 +85,10 @@ public class Player : Area2D
 		if ((_bulletScene is null) || !Input.IsActionPressed("ui_select") || !_canShoot) return;
 		
 		_canShoot = false;
-		Bullet bulletInstance = (Bullet) _bulletScene.Instance();
 		
+		Bullet bulletInstance = (Bullet) _bulletScene.Instance();
 		GetTree().Root.AddChild(bulletInstance);
+		
 		bulletInstance.Position = _bulletSpawn.GlobalPosition;
 		bulletInstance.ApplyCentralImpulse(- Transform.x.Normalized() * _bulletSpeed);
 		_bulletTimer.Start();

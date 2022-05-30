@@ -92,6 +92,6 @@ public class MainGame : Node
 		rockInstance.Rotation = (float) rockFinalRotation;
 		
 		// Rotated the rock instance to the same direction we rotated it
-		rockInstance.AssignLinearVelocity((float) rockFinalRotation);
+		rockInstance.ApplyImpulse((float) rockFinalRotation);
 	}
 }

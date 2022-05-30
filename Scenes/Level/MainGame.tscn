@@ -18,7 +18,7 @@ _bigRockScene = ExtResource( 3 )
 
 [node name="Background_Rect" type="ColorRect" parent="."]
 margin_right = 961.0
-margin_bottom = 637.0
+margin_bottom = 661.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
