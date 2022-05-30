@@ -16,7 +16,6 @@ public class Bullet : RigidBody2D
 
     private void OnBulletBodyEntered(Node body)
     {
-        GD.Print("Se lalmo");
         if (body is Rock rock)
         {
             rock.DestroyRock();
