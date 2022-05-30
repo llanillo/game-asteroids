@@ -8,17 +8,20 @@ public class UserInterface : CanvasLayer
 
     [Signal] public delegate void StartGame();
 
+    private VBoxContainer _creditsVBox;
     private Button _playButton;
     private Label _messageLabel;
     private Label _scoreLabel;
     private Timer _messageTimer;
     
     public override void _Ready()
-    { 
+    {
+        _creditsVBox = GetNode<VBoxContainer>("Credits_VBox");
         _playButton = GetNode<Button>("Play_Button");
         _messageTimer = GetNode<Timer>("Message_Timer");
         _messageLabel = GetNode<Label>("Message");
         _scoreLabel = GetNode<Label>("Score_Label");
+        
         
         _scoreLabel.Hide();
         _messageTimer.Connect("timeout", this, "OnMessageTimerTimeout");
@@ -36,6 +39,7 @@ public class UserInterface : CanvasLayer
     {
         ShowMessage("Game Over");
         await ToSignal(_messageTimer, "timeout"); // Wait for message timer timeout signal
+        _creditsVBox.Show();
         _playButton.Show();
         _messageLabel.Text = "Asteroids";
         _messageLabel.Show();
@@ -54,6 +58,7 @@ public class UserInterface : CanvasLayer
 
     private void OnPlayButtonPressed()
     {
+        _creditsVBox.Hide();
         _playButton.Hide();
         _scoreLabel.Show();
         EmitSignal("StartGame");

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Soundtrack_Asteroids.mp3-a4c5783f498245fb6a1d26cb3ed29acd.mp3str"
+
+[deps]
+
+source_file="res://Audio/Soundtrack/Soundtrack_Asteroids.mp3"
+dest_files=[ "res://.import/Soundtrack_Asteroids.mp3-a4c5783f498245fb6a1d26cb3ed29acd.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
