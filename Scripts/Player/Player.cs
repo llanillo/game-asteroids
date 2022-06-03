@@ -18,6 +18,7 @@ public class Player : Area2D
 	
 	private Position2D _bulletSpawn;
 	private Timer _bulletTimer;
+	private AudioStreamPlayer _bulletAudioStream;
 	
 	private const float Acceleration = 0.2f;
 	private const float Friction = 0.02f;
@@ -37,6 +38,7 @@ public class Player : Area2D
 		_collisionPolygon = GetNode<CollisionPolygon2D>("CollisionPolygon");
 		
 		_bulletSpawn = GetNode<Position2D>("Bullet_Position");
+		_bulletAudioStream = GetNode<AudioStreamPlayer>("Shoot_AudioStream");
 		_bulletTimer = GetNode<Timer>("Bullet_Timer");
 		_bulletTimer.Connect("timeout", this, "OnBulletTimerTimeout");
 		Connect("body_entered", this, "OnPlayerBodyEntered");
@@ -99,6 +101,7 @@ public class Player : Area2D
 		bulletInstance.Position = _bulletSpawn.GlobalPosition;
 		bulletInstance.ApplyCentralImpulse(- Transform.x.Normalized() * _bulletSpeed);
 		_bulletTimer.Start();
+		_bulletAudioStream.Play();
 	}
 	
 	/*

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/Player/Bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Audio/Effects/SFX_8BitLaserShoot.wav" type="AudioStream" id=3]
 
 [sub_resource type="Animation" id=3]
 resource_name = "Burst Blink"
@@ -74,3 +75,7 @@ position = Vector2( -100, 0 )
 
 [node name="Bullet_Timer" type="Timer" parent="."]
 wait_time = 0.2
+
+[node name="Shoot_AudioStream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -30.0
