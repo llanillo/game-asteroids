@@ -5,7 +5,8 @@ public class MainGame : Node
 
 	[Export] private PackedScene _smallRockScene;
 	[Export] private PackedScene _bigRockScene;
-
+	[Export] private PackedScene _playerScene;
+	
 	private UserInterface _userInterface;
 	private Position2D _startPosition;
 	private Player _player;
@@ -22,8 +23,7 @@ public class MainGame : Node
 	public override void _Ready()
 	{
 		GD.Randomize();
-
-		_player = GetNode<Player>("Player");
+		
 		_startPosition = GetNode<Position2D>("Start_Position");
 		_startTimer = GetNode<Timer>("Start_Timer");
 		_scoreTimer = GetNode<Timer>("Score_Timer");
@@ -35,7 +35,6 @@ public class MainGame : Node
 		_scoreTimer.Connect("timeout", this, "OnScoreTimerTimeout");
 		_rockTimer.Connect("timeout", this, "OnRockTimerTimeout");
 		_userInterface.Connect("StartGame", this, "RestartGame"); // Connects play button pressed to restart game
-		_player.Connect("HitSignal", this, "GameOver"); // Connects player hitting rock signal to game over
 	}
 
 	/*
@@ -43,8 +42,8 @@ public class MainGame : Node
 	 */
 	private void RestartGame()
 	{
+		SpawnPlayer(_startPosition);
 		_score = 0;
-		_player.RestartPosition(_startPosition.Position);
 		_startTimer.Start();
 		_userInterface.ShowMessage("Get Ready");
 		_userInterface.UpdateScore(_score);
@@ -56,6 +55,7 @@ public class MainGame : Node
 	 */
 	private void GameOver()
 	{
+		_player.QueueFree();
 		_scoreTimer.Stop();
 		_rockTimer.Stop();
 		_userInterface.GameOver();
@@ -108,5 +108,16 @@ public class MainGame : Node
 		
 		// Rotated the rock instance to the same direction we rotated it
 		rockInstance.ApplyImpulse((float) rockFinalRotation);
+	}
+
+	/*
+	 * Spawn player at given position
+	 */
+	private void SpawnPlayer(Position2D position2D)
+	{
+		_player = _playerScene.Instance() as Player;
+		AddChild(_player);
+		_player.RestartPosition(position2D.Position);
+		_player.Connect("HitSignal", this, "GameOver"); // Connects player hitting rock signal to game over
 	}
 }
