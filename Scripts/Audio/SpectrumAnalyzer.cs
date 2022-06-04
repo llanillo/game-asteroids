@@ -23,7 +23,7 @@ public class SpectrumAnalyzer : Node2D
     }
 
     private const int FrequencyAmount = 20;
-    
+
     /*
      * Audible hertz range for humans
      */
@@ -37,13 +37,11 @@ public class SpectrumAnalyzer : Node2D
     private const int MinimumDecibel = -50;
     
     private AudioEffectSpectrumAnalyzerInstance _audioSpectrum;
-    private AudioStreamPlayer _musicStreamPlayer;
-
     private Range _frequencyRange;
     private Range _dbRange;
     
-    private float[] FrequenciesLoudness { get; } = new float[FrequencyAmount]; // Loudness of each frequency
-
+    public float[] FrequenciesLoudness { get; } = new float[FrequencyAmount]; // Loudness of each frequency
+    
     public override void _Ready()
     {
         /*
@@ -57,33 +55,22 @@ public class SpectrumAnalyzer : Node2D
          * and instance to access all its properties
          */
         _audioSpectrum = (AudioEffectSpectrumAnalyzerInstance) AudioServer.GetBusEffectInstance(0, 0);
-        _musicStreamPlayer = GetNode<AudioStreamPlayer>("Music_AudioStream");
         
-        /*
-         * Create the frequency and decibel range we are going to use
-         */
-        float currentMusicVolume = _musicStreamPlayer.VolumeDb;
         _frequencyRange = new Range(MinimumFrequency, MaximumFrequency);
-        _dbRange = new Range(MinimumDecibel + (int) currentMusicVolume, MaximumDecibel + (int) currentMusicVolume);
     }
 
     public override void _Process(float delta)
     {
         float frequency = _frequencyRange.Minimum;
-        float interval = (float) _frequencyRange.GetRangeDifference() / FrequencyAmount;
+        var interval = _frequencyRange.GetRangeDifference() / FrequencyAmount;
         
         for (uint i = 0; i < FrequencyAmount; i++)
         {
-            
-            /*
-             * Gets how far the current frequency is from the minimum and maximum
-             */
-            float frequencyScale = GetFrequencyScale(frequency, _frequencyRange);
-            float frequencyRangeLow = GetFrequencyRange(frequencyScale, _frequencyRange);
-            
+            float previousFrequencyScale = GetFrequencyScale(frequency, _frequencyRange);
             frequency += interval;
-            frequencyScale = GetFrequencyScale(frequency, _frequencyRange);
+            float frequencyScale = GetFrequencyScale(frequency, _frequencyRange);
             
+            float frequencyRangeLow = GetFrequencyRange(previousFrequencyScale, _frequencyRange);
             float frequencyRangeHigh = GetFrequencyRange(frequencyScale, _frequencyRange);
             
             float magnitude = GD.Linear2Db(_audioSpectrum.
@@ -96,31 +83,35 @@ public class SpectrumAnalyzer : Node2D
             magnitude = (magnitude - _dbRange.Minimum) / _dbRange.GetRangeDifference(); // Slope multiplication
             magnitude += 0.3f * frequencyScale;
             magnitude = Mathf.Clamp(magnitude, 0.05f, 1);
-            
-            FrequenciesLoudness[i] = Mathf.Lerp(FrequenciesLoudness[i], magnitude, 20.0f * delta);
-            
+
+            FrequenciesLoudness[i] = /*Mathf.Lerp(FrequenciesLoudness[i], magnitude, 20.0f * delta);*/ magnitude;
         }
-        
-        // Update(); // Delete later
     }
 
-    // Delete later
-    // public override void _Draw()
-    // {
-    //     Vector2 drawPos = Vector2.Zero;
-    //     float interval = 200f / FrequencyAmount;
-    //
-    //     for (uint i = 0; i < FrequencyAmount; i++)
-    //     {
-    //         DrawLine(drawPos, drawPos + new Vector2(0, -FrequenciesLoudness[i] * 50), Colors.Chocolate, 4.0f, true);
-    //         drawPos.x += interval;
-    //     }
-    // }        
-    //
-    public void PlayMusic()
+    /*
+    * Must be called before using the analyzer. Creates the frequency
+     * and decibel range the spectrum analyzer is going to use.
+    */
+    public void SetAudioStreamPlayer(AudioStreamPlayer audioStreamPlayer)
     {
-        _musicStreamPlayer.Play();
+        float currentMusicVolume = audioStreamPlayer.VolumeDb;
+        _dbRange = new Range(MinimumDecibel + (int) currentMusicVolume, MaximumDecibel + (int) currentMusicVolume);
     }
+    
+    /*
+     * Draw an audio visualizer of the current playing music.
+     */
+    private void DrawAudioVisualizer()
+    {
+        Vector2 drawPos = Vector2.Zero;
+        float interval = 200f / FrequencyAmount;
+    
+        for (uint i = 0; i < FrequencyAmount; i++)
+        {
+            DrawLine(drawPos, drawPos + new Vector2(0, -FrequenciesLoudness[i] * 50), Colors.Chocolate, 4.0f, true);
+            drawPos.x += interval;
+        }
+    }        
 
     /*
      * Returns the interpolated value between the maximum and minimum
