@@ -17,6 +17,8 @@ _smallRockScene = ExtResource( 5 )
 _bigRockScene = ExtResource( 3 )
 _playerScene = ExtResource( 1 )
 
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 961.0
 margin_bottom = 661.0

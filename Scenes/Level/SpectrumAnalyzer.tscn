@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Audio/Soundtrack/Soundtrack_Asteroids.mp3" type="AudioStream" id=1]
+[ext_resource path="res://Scripts/Level/SpectrumAnalyzer.cs" type="Script" id=2]
+
+[node name="Node2D" type="Node2D"]
+position = Vector2( 453, 281 )
+script = ExtResource( 2 )
+
+[node name="Music_AudioStream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -15.0
+autoplay = true
