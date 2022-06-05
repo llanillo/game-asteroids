@@ -9,32 +9,32 @@ public class ColorModulator : Node2D
     private const int GreenFrequency = 4;
     
     private const float ModulateAcceleration = 0.2f;
-    private static readonly Random _random = new Random();
+    private static readonly Random Random = new Random();
     
     private CanvasModulate _canvasModulate;
-
-    private float[] _frequenciesLoudness;
+    private SpectrumAnalyzer _spectrumAnalyzer;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         GD.Randomize();
         _canvasModulate = GetNode<CanvasModulate>("CanvasModulate");
-        _frequenciesLoudness = GetNode<SpectrumAnalyzer>("Spectrum_Analyzer").FrequenciesLoudness;
+        _spectrumAnalyzer = GetNode<SpectrumAnalyzer>("/root/World/Spectrum_Analyzer");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-      float red = _frequenciesLoudness[RedFrequency];
-      float blue = _frequenciesLoudness[BlueFrequency];
-      float green = _frequenciesLoudness[GreenFrequency];
+        float[] frequenciesLoudness = _spectrumAnalyzer.FrequenciesLoudness;
+        float red = frequenciesLoudness[RedFrequency];
+        float blue = frequenciesLoudness[BlueFrequency];
+        float green = frequenciesLoudness[GreenFrequency];
       
-      var colors = new[] {red, green, blue};
-      var randomColors = colors.OrderBy(x => _random.Next()).ToArray();
+        var colors = new[] {red, green, blue};
+        var randomColors = colors.OrderBy(x => Random.Next()).ToArray();
       
-      Color modulateColor = new Color(randomColors[0], randomColors[1], randomColors[2]);
-      _canvasModulate.Color = _canvasModulate.Color.LinearInterpolate(modulateColor, ModulateAcceleration);
+        Color modulateColor = new Color(randomColors[0], randomColors[1], randomColors[2]);
+        _canvasModulate.Color = _canvasModulate.Color.LinearInterpolate(modulateColor, ModulateAcceleration);
     }
     
 }

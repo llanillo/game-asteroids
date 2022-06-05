@@ -5,17 +5,21 @@ using Object = Godot.Object;
 public class AudioManager : Node2D
 {
 
+    private const int MusicVolume = -15;
+    
     private AudioStreamPlayer _audioStreamPlayer;
     private SpectrumAnalyzer _spectrumAnalyzer;
 
-    private AudioEffect _audioEffect;
-    
+    private FadeOutAudio _fadeOutAudio;
+    private FadeInAudio _fadeInAudio;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         _audioStreamPlayer = GetNode<AudioStreamPlayer>("Music_AudioStream");
         _spectrumAnalyzer = GetNode<SpectrumAnalyzer>("/root/World/Spectrum_Analyzer");
-        _audioEffect = GetNode<AudioEffect>("Audio_Tween");
+        _fadeOutAudio = GetNode<FadeOutAudio>("FadeOut_Tween");
+        _fadeInAudio = GetNode<FadeInAudio>("FadeIn_Tween");
         
         _spectrumAnalyzer.SetAudioStreamPlayer(_audioStreamPlayer);
     }
@@ -27,12 +31,11 @@ public class AudioManager : Node2D
 
     public void FadeOutMusic()
     {
-        _audioEffect.FadeOutAudio(_audioStreamPlayer);
+        _fadeOutAudio.FadeOut(_audioStreamPlayer);
     }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    public void FadeInMusic()
+    {
+        _fadeInAudio.FadeIn(MusicVolume, _audioStreamPlayer);
+    }
 }
