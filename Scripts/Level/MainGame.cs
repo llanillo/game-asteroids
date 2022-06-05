@@ -2,7 +2,6 @@ using Godot;
 
 public class MainGame : Node
 {
-
 	[Export] private PackedScene _smallRockScene;
 	[Export] private PackedScene _bigRockScene;
 	[Export] private PackedScene _playerScene;
@@ -45,7 +44,7 @@ public class MainGame : Node
 	private void RestartGame()
 	{
 		SpawnPlayer(_startPosition);
-		_audioManager.PlayMusic();
+		_audioManager.FadeInMusic();
 		
 		_score = 0;
 		_startTimer.Start();
@@ -106,6 +105,8 @@ public class MainGame : Node
 			rockInstance = _smallRockScene.Instance() as Rock;
 		}
 
+		if (rockInstance is null) return;
+		
 		AddChild(rockInstance);
 		
 		rockInstance.Position = _rockPathFollow.Position;

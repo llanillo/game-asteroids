@@ -104,7 +104,7 @@ alignment = 1
 
 [node name="CodeCredits_RichLabel" type="RichTextLabel" parent="Credits_VBox"]
 margin_right = 954.0
-margin_bottom = 35.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/normal_font = SubResource( 7 )
@@ -114,15 +114,15 @@ text = "Created  by Llanillo"
 scroll_active = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Credits_VBox"]
-margin_top = 39.0
+margin_top = 26.0
 margin_right = 954.0
-margin_bottom = 75.0
+margin_bottom = 48.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MusicCredit_RichLabel" type="RichTextLabel" parent="Credits_VBox/HBoxContainer"]
 margin_right = 475.0
-margin_bottom = 36.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/normal_font = SubResource( 8 )
@@ -133,10 +133,21 @@ text = "Music by Exaro"
 [node name="SFXCredit_RichLabel2" type="RichTextLabel" parent="Credits_VBox/HBoxContainer"]
 margin_left = 479.0
 margin_right = 954.0
-margin_bottom = 36.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/normal_font = SubResource( 8 )
 bbcode_enabled = true
-bbcode_text = "[center]Sound Effect  by [url=https://freesound.org/people/MusicLegends/sounds/344310/]MusicLegends[/url][/center]"
-text = "Sound Effect  by MusicLegends"
+bbcode_text = "[center]Shoot audio  by [url=https://freesound.org/people/MusicLegends/sounds/344310/]MusicLegends[/url][/center]"
+text = "Shoot audio  by MusicLegends"
+
+[node name="SFXCredit_RichLabel3" type="RichTextLabel" parent="Credits_VBox"]
+margin_top = 52.0
+margin_right = 954.0
+margin_bottom = 75.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/normal_font = SubResource( 8 )
+bbcode_enabled = true
+bbcode_text = "[center]Explosion audio effect by [url=https://freesound.org/people/Prof.Mudkip/sounds/386862/]Prof.Mudkip[/url][/center]"
+text = "Explosion audio effect by Prof.Mudkip"

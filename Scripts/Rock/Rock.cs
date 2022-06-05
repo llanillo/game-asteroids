@@ -4,6 +4,8 @@ public class Rock : RigidBody2D
 {
 	[Export] public int MinSpeed { get; private set; } = 150;
 	[Export] public int MaxSpeed { get; private set; } = 250;
+
+	[Export] private PackedScene _explosionScene;
 	
 	private VisibilityNotifier2D _visibilityNotifier;
 	private AnimatedSprite _rockAnimatedSprite;
@@ -45,11 +47,20 @@ public class Rock : RigidBody2D
 		QueueFree();
 	}
 
+	protected void CreateExplosion(Vector2 position)
+	{
+		if (!(_explosionScene?.Instance() is Explosion explosionInstance)) return;
+		
+		GetTree().Root.AddChild(explosionInstance);
+		explosionInstance.EmitsExplosion(position);
+	}
+	
 	/*
 	* Called when player's bullet hit this rock
 	*/
 	public virtual void DestroyRock()
 	{
+		CreateExplosion(GlobalPosition);
 		QueueFree();
 	}
 }

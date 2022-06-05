@@ -12,18 +12,20 @@ public class BigRock : Rock
      */
     public override void DestroyRock()
     {
+        CreateExplosion(GlobalPosition);
+        
         for (uint i = 0; i < _amountSmallRocks; i++)
         {
-            Rock smallRockInstance = _smallRockScene.Instance() as Rock;
+            if(!(_smallRockScene?.Instance() is Rock smallRockInstance)) return;
             GetTree().Root.CallDeferred("add_child", smallRockInstance); // Delay the AddChild method until engine is ready to execute it
             
             double rockRotation = GD.RandRange(-Mathf.Pi, Mathf.Pi);
             
-            smallRockInstance.Position = Position;
+            smallRockInstance.GlobalPosition = Position;
             smallRockInstance.Rotation = (float) rockRotation;
             smallRockInstance.ApplyImpulse((float) rockRotation);
         }
-        
-        base.DestroyRock();
+
+        QueueFree();
     }
 }

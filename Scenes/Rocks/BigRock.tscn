@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/Rock/BigRock.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Rocks/TBig_Rock1.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Rocks/TBig_Rock2.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Rocks/TBig_Rock3.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Rocks/SmallRock.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scripts/Rock/Explosion.tscn" type="PackedScene" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -13,14 +14,14 @@ animations = [ {
 "name": "Type 3",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 2 ) ],
-"loop": true,
-"name": "Type 1",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "Type 2",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "Type 1",
 "speed": 5.0
 } ]
 
@@ -33,6 +34,7 @@ gravity_scale = 0.0
 script = ExtResource( 1 )
 MinSpeed = 175
 MaxSpeed = 200
+_explosionScene = ExtResource( 6 )
 _smallRockScene = ExtResource( 5 )
 
 [node name="AnimSprite" type="AnimatedSprite" parent="."]
