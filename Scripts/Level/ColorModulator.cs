@@ -8,7 +8,7 @@ public class ColorModulator : Node2D
     private const int BlueFrequency = 2;
     private const int GreenFrequency = 4;
     
-    private const float ModulateAcceleration = 0.2f;
+    private const float ModulateAcceleration = 0.3f;
     private static readonly Random Random = new Random();
     
     private CanvasModulate _canvasModulate;

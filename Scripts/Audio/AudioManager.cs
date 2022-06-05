@@ -6,12 +6,15 @@ public class AudioManager : Node2D
 {
 
     private const int MusicVolume = -15;
+    private const float FadeOutTransitionDuration = 3.0f;
+    private const float FadeInTransitionDuration = 2.0f;
     
     private AudioStreamPlayer _audioStreamPlayer;
     private SpectrumAnalyzer _spectrumAnalyzer;
 
     private FadeOutAudio _fadeOutAudio;
     private FadeInAudio _fadeInAudio;
+    
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -24,18 +27,37 @@ public class AudioManager : Node2D
         _spectrumAnalyzer.SetAudioStreamPlayer(_audioStreamPlayer);
     }
     
-    public void PlayMusic()
+    /*
+     * Play the audio stream player instantly
+     */
+    public void PlayAudioStreamPlayer()
     {
         _audioStreamPlayer.Play();
     }
 
-    public void FadeOutMusic()
+    /*
+     * Stops the audio stream player instantly
+     */
+    public void StopAudioStreamPlayer()
     {
-        _fadeOutAudio.FadeOut(_audioStreamPlayer);
+        _audioStreamPlayer.Stop();
+    }
+    
+    /*
+     * Plays a fade out effect to the audio stream player
+     * with the given transition duration
+     */
+    public void FadeOutAudio()
+    {
+        _fadeOutAudio.FadeOut(FadeOutTransitionDuration, _audioStreamPlayer);
     }
 
-    public void FadeInMusic()
+    /*
+     * Plays a fade in effect to the audio stream player
+     * with the given transition duration
+     */
+    public void FadeInAudio()
     {
-        _fadeInAudio.FadeIn(MusicVolume, _audioStreamPlayer);
+        _fadeInAudio.FadeIn(MusicVolume, FadeInTransitionDuration, _audioStreamPlayer);
     }
 }

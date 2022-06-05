@@ -2,7 +2,6 @@ using Godot;
 
 public class FadeOutAudio : AudioEffect
 {
-    public override float TransitionDuration => 2.0f;
 
     private float _lastVolume;
     
@@ -12,14 +11,21 @@ public class FadeOutAudio : AudioEffect
         Connect("tween_completed", this, "OnFadeOutTweenCompleted");
     }
     
-    public void FadeOut(AudioStreamPlayer audioStreamPlayer)
+    /*
+    * Uses a tween node to interpolate the volume property to
+    * the audio stream player to simulate the fade out effect
+    */
+    public void FadeOut(float transitionDuration, AudioStreamPlayer audioStreamPlayer)
     {
         _lastVolume = audioStreamPlayer.VolumeDb;
-        InterpolateProperty(audioStreamPlayer, "volume_db", _lastVolume,
-                    LowestVolume, TransitionDuration, Tween.TransitionType.Linear, EaseType.In);
+        InterpolateProperty(audioStreamPlayer, VolumeProperty, _lastVolume,
+                    LowestVolume, transitionDuration, Tween.TransitionType.Linear, EaseType.In);
         Start();
     }
 
+    /*
+     * Called when fade out tween completed signal is emitted
+     */
     private void OnFadeOutTweenCompleted(Object signalObject, NodePath key)
     {
         var audioStreamPlayer = (AudioStreamPlayer) signalObject;

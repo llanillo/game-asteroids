@@ -3,9 +3,7 @@ using System;
 
 public class AudioEffect : Tween
 {
-    private const int _lowestVolume = -80;
+    protected static int LowestVolume { get; } = -80;
 
-    protected static int LowestVolume => _lowestVolume;
-
-    public virtual float TransitionDuration { get; }
+    protected static string VolumeProperty { get; } = "volume_db";
 }

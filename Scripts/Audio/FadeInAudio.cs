@@ -2,14 +2,16 @@ using Godot;
 
 public class FadeInAudio : AudioEffect
 {
-    public override float TransitionDuration => 1.0f;
-
-    public void FadeIn(float maximumVolume, AudioStreamPlayer audioStreamPlayer)
+    
+    /*
+     * Uses a tween node to interpolate the volume property to
+     * the audio stream player to simulate the fade in effect
+     */
+    public void FadeIn(float maximumVolume, float transitionDuration, AudioStreamPlayer audioStreamPlayer)
     {
-        audioStreamPlayer.Play();
-        
-        InterpolateProperty(audioStreamPlayer, "volume_db", LowestVolume,
-            maximumVolume, TransitionDuration, TransitionType.Linear, EaseType.In);
+        InterpolateProperty(audioStreamPlayer, VolumeProperty, LowestVolume,
+                    maximumVolume, transitionDuration, TransitionType.Linear, EaseType.In);
         Start();
+        audioStreamPlayer.Play();
     }
 }

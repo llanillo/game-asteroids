@@ -44,7 +44,7 @@ public class MainGame : Node
 	private void RestartGame()
 	{
 		SpawnPlayer(_startPosition);
-		_audioManager.FadeInMusic();
+		_audioManager.FadeInAudio();
 		
 		_score = 0;
 		_startTimer.Start();
@@ -58,7 +58,7 @@ public class MainGame : Node
 	 */
 	private void GameOver()
 	{
-		_audioManager.FadeOutMusic();
+		_audioManager.FadeOutAudio();
 		_player.QueueFree();
 		_scoreTimer.Stop();
 		_rockTimer.Stop();
