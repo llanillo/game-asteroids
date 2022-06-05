@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Audio/Soundtrack/Soundtrack_Asteroids.mp3" type="AudioStream" id=1]
+[ext_resource path="res://Scripts/Audio/AudioManager.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/Audio/AudioEffect.cs" type="Script" id=3]
+
+[node name="AudioManager" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Music_AudioStream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -15.0
+
+[node name="Audio_Tween" type="Tween" parent="."]
+script = ExtResource( 3 )

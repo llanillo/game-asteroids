@@ -6,7 +6,8 @@ public class MainGame : Node
 	[Export] private PackedScene _smallRockScene;
 	[Export] private PackedScene _bigRockScene;
 	[Export] private PackedScene _playerScene;
-	
+
+	private AudioManager _audioManager;
 	private UserInterface _userInterface;
 	private Position2D _startPosition;
 	private Player _player;
@@ -25,10 +26,11 @@ public class MainGame : Node
 		GD.Randomize();
 		
 		_startPosition = GetNode<Position2D>("Start_Position");
-		_startTimer = GetNode<Timer>("Start_Timer");
-		_scoreTimer = GetNode<Timer>("Score_Timer");
-		_rockTimer = GetNode<Timer>("Rock_Timer");
+		_startTimer = GetNode<Timer>("Timers/Start_Timer");
+		_scoreTimer = GetNode<Timer>("Timers/Score_Timer");
+		_rockTimer = GetNode<Timer>("Timers/Rock_Timer");
 		_userInterface = GetNode<UserInterface>("Canvas");
+		_audioManager = GetNode<AudioManager>("AudioManager");
 		_rockPathFollow = GetNode<PathFollow2D>("Rock_Path/Rock_PathFollow");
 		
 		_startTimer.Connect("timeout", this, "OnStartTimerTimeout");
@@ -43,6 +45,8 @@ public class MainGame : Node
 	private void RestartGame()
 	{
 		SpawnPlayer(_startPosition);
+		_audioManager.PlayMusic();
+		
 		_score = 0;
 		_startTimer.Start();
 		_userInterface.ShowMessage("Get Ready");
@@ -55,6 +59,7 @@ public class MainGame : Node
 	 */
 	private void GameOver()
 	{
+		_audioManager.FadeOutMusic();
 		_player.QueueFree();
 		_scoreTimer.Stop();
 		_rockTimer.Stop();
