@@ -28,7 +28,6 @@ color = Color( 0, 0, 0, 1 )
 [node name="Timers" type="Node" parent="."]
 
 [node name="Rock_Timer" type="Timer" parent="Timers"]
-wait_time = 0.3
 
 [node name="Score_Timer" type="Timer" parent="Timers"]
 
