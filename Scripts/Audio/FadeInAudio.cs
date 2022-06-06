@@ -3,6 +3,12 @@ using Godot;
 public class FadeInAudio : AudioEffect
 {
     
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        Connect("tween_started", this, "OnFadeInTweenCompleted");
+    }
+    
     /*
      * Uses a tween node to interpolate the volume property to
      * the audio stream player to simulate the fade in effect
@@ -12,6 +18,11 @@ public class FadeInAudio : AudioEffect
         InterpolateProperty(audioStreamPlayer, VolumeProperty, LowestVolume,
                     maximumVolume, transitionDuration, TransitionType.Linear, EaseType.In);
         Start();
-        audioStreamPlayer.Play();
     }
+
+    private void OnFadeInTweenCompleted(Object signalObject, NodePath key)
+    {
+        var audioStreamPlayer = (AudioStreamPlayer)signalObject;
+        audioStreamPlayer.Play();
+    } 
 }

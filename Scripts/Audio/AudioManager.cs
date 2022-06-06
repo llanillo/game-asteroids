@@ -32,6 +32,7 @@ public class AudioManager : Node2D
      */
     public void PlayAudioStreamPlayer()
     {
+        _audioStreamPlayer.VolumeDb = MusicVolume;
         _audioStreamPlayer.Play();
     }
 
