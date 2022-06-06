@@ -1,7 +1,15 @@
 using Godot;
 
+public enum GameStatus : uint
+{
+	Active,
+	Stop
+}
+
 public class MainGame : Node
 {
+	public static GameStatus GameStatus = GameStatus.Stop;
+	
 	[Export] private PackedScene _smallRockScene;
 	[Export] private PackedScene _bigRockScene;
 	[Export] private PackedScene _playerScene;
@@ -43,6 +51,8 @@ public class MainGame : Node
 	 */
 	private void RestartGame()
 	{
+		GameStatus = GameStatus.Active;
+		
 		SpawnPlayer(_startPosition);
 		_audioManager.FadeInAudio();
 		
@@ -58,6 +68,8 @@ public class MainGame : Node
 	 */
 	private void GameOver()
 	{
+		GameStatus = GameStatus.Stop;
+		
 		_audioManager.FadeOutAudio();
 		_player.QueueFree();
 		_scoreTimer.Stop();

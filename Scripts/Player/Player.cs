@@ -11,7 +11,7 @@ public class Player : Area2D
 	
 	private CollisionPolygon2D _collisionPolygon;
 	private Vector2 _velocity = Vector2.Zero;
-	private Rect2 _mapLimit;
+	private Rect2 _viewportRect;
 	
 	private AnimationPlayer _burstAnimationPlayer;
 	private Line2D _burstLine;
@@ -32,7 +32,7 @@ public class Player : Area2D
 	public override void _Ready()
 	{
 		Hide();
-		_mapLimit = GetViewportRect();
+		_viewportRect = GetViewportRect();
 		_burstAnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer_Burst");
 		_burstLine = GetNode<Line2D>("Node_Player/Line_Burst");
 		_collisionPolygon = GetNode<CollisionPolygon2D>("CollisionPolygon");
@@ -115,8 +115,8 @@ public class Player : Area2D
 		_velocity = inputVelocity.Length() > 0 ? _velocity.LinearInterpolate(inputVelocity, Acceleration) : _velocity.LinearInterpolate(Vector2.Zero, Friction);
 		Position += _velocity * delta;
 
-		float xLimit = _mapLimit.End.x;
-		float yLimit = _mapLimit.End.y;
+		float xLimit = _viewportRect.End.x;
+		float yLimit = _viewportRect.End.y;
 		float offset = 20.0f;
 		Position = new Vector2(Mathf.Clamp(Position.x, offset, xLimit - offset), Mathf.Clamp(Position.y, offset, yLimit - offset));
 	}

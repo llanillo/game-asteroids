@@ -12,8 +12,6 @@ public class BigRock : Rock
      */
     public override void DestroyRock()
     {
-        CreateExplosion(GlobalPosition);
-        
         for (uint i = 0; i < _amountSmallRocks; i++)
         {
             if(!(_smallRockScene?.Instance() is Rock smallRockInstance)) return;
@@ -26,6 +24,6 @@ public class BigRock : Rock
             smallRockInstance.ApplyImpulse((float) rockRotation);
         }
 
-        QueueFree();
+        base.DestroyRock();
     }
 }

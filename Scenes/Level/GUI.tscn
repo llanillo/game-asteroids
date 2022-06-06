@@ -87,7 +87,7 @@ custom_styles/normal = SubResource( 4 )
 text = "Play"
 
 [node name="Message_Timer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 3.5
 one_shot = true
 
 [node name="Credits_VBox" type="VBoxContainer" parent="."]

@@ -9,11 +9,6 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 4 ) ],
-"loop": true,
-"name": "Type 3",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "Type 2",
@@ -23,6 +18,11 @@ animations = [ {
 "loop": true,
 "name": "Type 1",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "Type 3",
+"speed": 5.0
 } ]
 
 [sub_resource type="CircleShape2D" id=2]
@@ -31,6 +31,7 @@ radius = 61.0737
 [node name="RigidBody2D" type="RigidBody2D"]
 collision_layer = 2
 gravity_scale = 0.0
+linear_damp = 0.0
 script = ExtResource( 1 )
 MinSpeed = 175
 MaxSpeed = 200
