@@ -93,7 +93,8 @@ public class Player : Area2D
 		{
 			inputVelocity = new Vector2(-_speed, 0).Rotated(Rotation);
 		}
-
+			
+		GD.Print(_rotationDirection);
 		return inputVelocity.Normalized() * _speed;
 	}
 
