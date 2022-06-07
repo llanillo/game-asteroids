@@ -26,9 +26,9 @@ public class FadeOutAudio : AudioEffect
     /*
      * Called when fade out tween completed signal is emitted
      */
-    private void OnFadeOutTweenCompleted(Object signalObject, NodePath key)
+    private void OnFadeOutTweenCompleted(Object @object, NodePath key)
     {
-        var audioStreamPlayer = (AudioStreamPlayer) signalObject;
+        var audioStreamPlayer = (AudioStreamPlayer) @object;
         audioStreamPlayer.Stop();
         audioStreamPlayer.VolumeDb = _lastVolume;
     }

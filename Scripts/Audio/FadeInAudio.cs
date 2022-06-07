@@ -20,9 +20,9 @@ public class FadeInAudio : AudioEffect
         Start();
     }
 
-    private void OnFadeInTweenCompleted(Object signalObject, NodePath key)
+    private void OnFadeInTweenCompleted(Object @object, NodePath key)
     {
-        var audioStreamPlayer = (AudioStreamPlayer)signalObject;
+        var audioStreamPlayer = (AudioStreamPlayer)@object;
         audioStreamPlayer.Play();
     } 
 }
