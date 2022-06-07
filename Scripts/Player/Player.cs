@@ -1,11 +1,13 @@
+using System.Collections.Generic;
 using Godot;
 
 public class Player : Area2D
 {
 	[Export] private PackedScene _bulletScene;
-	[Export] private float _bulletSpeed = 400.0f;
+	[Export] private float _bulletSpeed = 500.0f;
 	[Export] private float _rotationSpeed = 4.5f;
 	[Export] private float _speed = 500;
+	[Export] private int _numberSpecials = 3;
 	
 	[Signal] public delegate void HitSignal();
 	
@@ -16,17 +18,21 @@ public class Player : Area2D
 	private AnimationPlayer _burstAnimationPlayer;
 	private Line2D _burstLine;
 	
-	private Position2D _bulletSpawn;
-	private Timer _bulletTimer;
 	private AudioStreamPlayer _bulletAudioStream;
+	private Position2D _bulletSpawnPosition;
+	private Timer _bulletTimer;
+	private Timer _specialTimer;
+	
+	private const int NumberSpecialBullets = 50;
 	
 	private const float Acceleration = 0.2f;
 	private const float Friction = 0.02f;
+	
 	private const int MinVelocityBurstAnimation = 40;
 	
 	private int _rotationDirection;
-
 	private bool _canShoot = true;
+	private bool _canShootSpecial = true;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -37,10 +43,14 @@ public class Player : Area2D
 		_burstLine = GetNode<Line2D>("Node_Player/Line_Burst");
 		_collisionPolygon = GetNode<CollisionPolygon2D>("CollisionPolygon");
 		
-		_bulletSpawn = GetNode<Position2D>("Bullet_Position");
+		_bulletSpawnPosition = GetNode<Position2D>("Bullet_Position");
 		_bulletAudioStream = GetNode<AudioStreamPlayer>("Shoot_AudioStream");
+
+		_specialTimer = GetNode<Timer>("Special_Timer");
+		_specialTimer.Connect("timeout", this, "OnSpecialTimerTimeout");
 		_bulletTimer = GetNode<Timer>("Bullet_Timer");
 		_bulletTimer.Connect("timeout", this, "OnBulletTimerTimeout");
+		
 		Connect("body_entered", this, "OnPlayerBodyEntered");
 	}
 
@@ -49,6 +59,7 @@ public class Player : Area2D
 		Vector2 inputVelocity = HandlePlayerMovementInput();
 		HandlePlayerMovement(delta, inputVelocity);
 		HandlePlayerShootingInput();
+		HandlePlayerSpecialInput();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -87,19 +98,67 @@ public class Player : Area2D
 	}
 
 	/*
+	 * Spawn a series of bullets that follows a spiral form
+	 */
+	private async void HandlePlayerSpecialInput()
+	{
+		if ((_bulletScene is null) || !Input.IsActionPressed("ui_secondary") 
+		                           || _numberSpecials <= 0 || !_canShootSpecial) return;
+
+		const float specialDegreesFactor = 4.2f;
+		const float degreesOffset0 = 0;
+		const float degreesOffset90 = 90;
+		const float degreesOffset180 = 180;
+		const float degreesOffset270 = 270;
+		
+		_numberSpecials--;
+		_canShootSpecial = false;
+		
+		for (uint i = 0; i < NumberSpecialBullets; i++)
+		{
+			float[] directions = GetSpecialBulletsDirection((int) i, specialDegreesFactor, 
+				new float[]{degreesOffset0, degreesOffset90, degreesOffset180, degreesOffset270});
+			
+			for(uint j = 0; j < directions.Length; j++)
+			{
+				Vector2 bulletDirection = new Vector2(Mathf.Cos(directions[j]), Mathf.Sin(directions[j]));
+				SpawnBullet(_bulletSpawnPosition, bulletDirection, _bulletSpeed);
+			}
+			
+			await ToSignal(GetTree(), "idle_frame");
+		}
+		
+		_specialTimer.Start();
+		GD.Print(_numberSpecials);
+	}
+
+	/*
+	 * Returns an float array that contains degrees
+	 * directions used to spawn special abilities bullets
+	 */
+	private static float[] GetSpecialBulletsDirection(int cycleIndex, float degreesFactor, IReadOnlyList<float> offsets)
+	{
+		var amount = offsets.Count;
+		var directions = new float[amount];
+            
+		for (int i = 0; i < amount; i++)
+		{
+			directions[i] = Mathf.Deg2Rad(offsets[i] + cycleIndex * degreesFactor);
+		}
+
+		return directions;
+	}
+	
+	/*
 	 * Spawns a bullet and applies central impulse to it with player's current direction
 	 */
 	private void HandlePlayerShootingInput()
 	{
-		if ((_bulletScene is null) || !Input.IsActionPressed("ui_select") || !_canShoot) return;
+		if (!Input.IsActionPressed("ui_select") || !_canShoot) return;
+		
+		SpawnBullet(_bulletSpawnPosition, - Transform.x.Normalized(), _bulletSpeed);
 		
 		_canShoot = false;
-		
-		Bullet bulletInstance = (Bullet) _bulletScene.Instance();
-		GetTree().Root.AddChild(bulletInstance);
-		
-		bulletInstance.Position = _bulletSpawn.GlobalPosition;
-		bulletInstance.ApplyCentralImpulse(- Transform.x.Normalized() * _bulletSpeed);
 		_bulletTimer.Start();
 		_bulletAudioStream.Play();
 	}
@@ -139,6 +198,19 @@ public class Player : Area2D
 	}
 
 	/*
+	 * Spawns a bullet with direction, position and applies to it a central impulse
+	 */
+	private void SpawnBullet(Position2D spawnPosition, Vector2 direction, float bulletSpeed)
+	{
+		if(!(_bulletScene?.Instance() is Bullet bulletInstance)) return;
+		
+		GetTree().Root.AddChild(bulletInstance);
+		
+		bulletInstance.Position = spawnPosition.GlobalPosition;
+		bulletInstance.ApplyCentralImpulse(direction * bulletSpeed);
+	}
+	
+	/*
 	 * Called on player body entered signal
 	 */
 	private void OnPlayerBodyEntered(object body)
@@ -148,11 +220,22 @@ public class Player : Area2D
 	  _collisionPolygon.SetDeferred("disabled", false);
 	}
 
+	/*
+	 * Restart player position
+	 */
 	public void RestartPosition(Vector2 newPosition)
 	{
 	  Show();
-	  this.Position = newPosition;
+	  Position = newPosition;
 	  _collisionPolygon.Disabled = false;
+	}
+
+	/*
+	 * Called on special ability timer timeout signal
+	 */
+	private void OnSpecialTimerTimeout()
+	{
+		_canShootSpecial = true;
 	}
 	
 	/*

@@ -9,7 +9,9 @@ public enum GameStatus : uint
 public class MainGame : Node
 {
 	public static GameStatus GameStatus = GameStatus.Stop;
-	
+
+	private const float RockRotation = Mathf.Pi / 4;
+
 	[Export] private PackedScene _smallRockScene;
 	[Export] private PackedScene _bigRockScene;
 	[Export] private PackedScene _playerScene;
@@ -102,9 +104,8 @@ public class MainGame : Node
 	{
 		if (_bigRockScene is null || _smallRockScene is null) return;
 		
-		// The final rock rotation is the path rotation plus an offset angle
 		double rockFinalRotation = _rockPathFollow.Rotation + Mathf.Pi / 2;
-		rockFinalRotation += GD.RandRange(-Mathf.Pi / 4, Mathf.Pi / 4);
+		rockFinalRotation += GD.RandRange(-RockRotation, RockRotation);
 		_rockPathFollow.Offset = GD.Randi();
 
 		Rock rockInstance;
