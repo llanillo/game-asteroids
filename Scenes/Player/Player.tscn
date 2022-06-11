@@ -1,16 +1,21 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=1]
-[ext_resource path="res://Scenes/Player/Bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/Player/Controllers/Manager/PlayerManager.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/Player/Controllers/Movement/PlayerRotation.cs" type="Script" id=2]
 [ext_resource path="res://Audio/Effects/SFX_8_Bit_LaserShoot.wav" type="AudioStream" id=3]
-[ext_resource path="res://Scripts/Player/Controllers/PlayerInputHandler.cs" type="Script" id=4]
+[ext_resource path="res://Scripts/Player/Controllers/Input/PlayerInput.cs" type="Script" id=4]
+[ext_resource path="res://Scripts/Player/Controllers/Movement/PlayerMovement.cs" type="Script" id=5]
+[ext_resource path="res://Scripts/Player/Controllers/Animation/PlayerAnimation.cs" type="Script" id=6]
+[ext_resource path="res://Scripts/Player/Controllers/Attack/PlayerSpecialAttack.cs" type="Script" id=7]
+[ext_resource path="res://Scripts/Player/Controllers/Attack/PlayerAttack.cs" type="Script" id=8]
+[ext_resource path="res://Scenes/Player/Bullet.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Animation" id=3]
 resource_name = "Burst Blink"
 length = 0.5
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Node_Player/Line_Burst:visible")
+tracks/0/path = NodePath("PlayerShape/LineBurst:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -25,7 +30,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=2]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Node_Player/Line_Burst:visible")
+tracks/0/path = NodePath("PlayerShape/LineBurst:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -44,44 +49,62 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
-_bulletScene = ExtResource( 2 )
 
 [node name="Controllers" type="Node" parent="."]
 
-[node name="InputHandler" type="Node" parent="Controllers"]
+[node name="PlayerInput" type="Node" parent="Controllers"]
 script = ExtResource( 4 )
 
-[node name="Node_Player" type="Node2D" parent="."]
+[node name="PlayerRotation" type="Node" parent="Controllers"]
+script = ExtResource( 2 )
 
-[node name="Line_Body1" type="Line2D" parent="Node_Player"]
+[node name="PlayerMovement" type="Node" parent="Controllers"]
+script = ExtResource( 5 )
+
+[node name="PlayerAttack" type="Node" parent="Controllers"]
+script = ExtResource( 8 )
+_bulletScene = ExtResource( 9 )
+
+[node name="PlayerSpecialAttack" type="Node" parent="Controllers"]
+script = ExtResource( 7 )
+_bulletScene = ExtResource( 9 )
+
+[node name="PlayerAnimation" type="Node" parent="Controllers"]
+script = ExtResource( 6 )
+
+[node name="PlayerShape" type="Node2D" parent="."]
+
+[node name="LineFront" type="Line2D" parent="PlayerShape"]
 points = PoolVector2Array( 95, 65, -95, 0, 95, -65 )
 
-[node name="Line_Body2" type="Line2D" parent="Node_Player"]
+[node name="LineBack" type="Line2D" parent="PlayerShape"]
 position = Vector2( 57, -47 )
 points = PoolVector2Array( 3, -8, 3, 102 )
 
-[node name="Line_Burst" type="Line2D" parent="Node_Player"]
+[node name="LineBurst" type="Line2D" parent="PlayerShape"]
 position = Vector2( 75, -25 )
 points = PoolVector2Array( 0, -20, 70, 25, 0, 70, 0, 45, 30, 25, 0, 5, 0, -20 )
 joint_mode = 2
 begin_cap_mode = 2
 
-[node name="AnimationPlayer_Burst" type="AnimationPlayer" parent="."]
+[node name="Timers" type="Node" parent="."]
+
+[node name="BulletTimer" type="Timer" parent="Timers"]
+wait_time = 0.2
+
+[node name="SpecialTimer" type="Timer" parent="Timers"]
+wait_time = 5.0
+
+[node name="AnimationPlayerBurst" type="AnimationPlayer" parent="."]
 "anims/Burst Blink" = SubResource( 3 )
 anims/RESET = SubResource( 2 )
 
 [node name="CollisionPolygon" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( -95, 0, 85, -60, 85, 60 )
 
-[node name="Bullet_Position" type="Position2D" parent="."]
+[node name="BulletPosition" type="Position2D" parent="."]
 position = Vector2( -100, 0 )
 
-[node name="Bullet_Timer" type="Timer" parent="."]
-wait_time = 0.2
-
-[node name="Special_Timer" type="Timer" parent="."]
-wait_time = 5.0
-
-[node name="Shoot_AudioStream" type="AudioStreamPlayer" parent="."]
+[node name="ShootAudioStream" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 volume_db = -35.0

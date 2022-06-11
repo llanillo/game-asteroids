@@ -36,5 +36,4 @@ public class ColorModulator : Node2D
         Color modulateColor = new Color(randomColors[0], randomColors[1], randomColors[2]);
         _canvasModulate.Color = _canvasModulate.Color.LinearInterpolate(modulateColor, ModulateAcceleration);
     }
-    
 }

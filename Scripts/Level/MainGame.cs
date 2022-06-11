@@ -1,3 +1,5 @@
+using Asteroids.Scripts.Player.Controllers.Manager;
+using Asteroids.Scripts.Player.Instances;
 using Godot;
 
 public enum GameStatus : uint
@@ -19,7 +21,7 @@ public class MainGame : Node
 	private AudioManager _audioManager;
 	private UserInterface _userInterface;
 	private Position2D _startPosition;
-	private Player _player;
+	private PlayerManager _player;
 	
 	private Timer _startTimer;
 	private Timer _scoreTimer;
@@ -134,7 +136,9 @@ public class MainGame : Node
 	 */
 	private void SpawnPlayer(Position2D position2D)
 	{
-		_player = _playerScene.Instance() as Player;
+		if (_playerScene is null) return;
+
+		_player = _playerScene.Instance() as PlayerManager;
 		AddChild(_player);
 		_player.RestartPosition(position2D.Position);
 		_player.Connect("HitSignal", this, "GameOver"); // Connects player hitting rock signal to game over
