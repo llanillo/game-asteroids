@@ -41,26 +41,19 @@ namespace Asteroids.Scripts.Player.Controllers.Manager
     
         public override void _PhysicsProcess(float delta)
         {
-            /*
-             * Movement and rotation
-             */
+            // Movement and rotation
             Vector2 inputVelocity = _playerInput.OnMovementInput();
             Rotation += _playerRotation.CalculateRotation(delta, inputVelocity);
             Position += _playerMovement.GetLinearMovement(Rotation, delta, inputVelocity);
             Position = _playerMovement.ClampPosition(Position, _viewportRect.End);
         
-            /*
-             * Player shoot and special
-             */
+            // Player shoot and special
             _playerAttack.Shoot(_playerInput.IsShooting, -Transform.x.Normalized());
             _playerSpecialAttack.ShootSpecial(_playerInput.IsShootingSpecial);
         }
 
         public override void _Process(float delta)
         {
-            /*
-            * Player burst animation
-            */
             _playerAnimation.PlayBurstAnimation(_playerMovement.Velocity);
         }
     

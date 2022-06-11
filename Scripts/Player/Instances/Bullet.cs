@@ -1,3 +1,4 @@
+using Asteroids.Scripts.Rock.Interface;
 using Godot;
 
 public class Bullet : RigidBody2D

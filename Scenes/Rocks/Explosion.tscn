@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Scripts/Rock/Explosion.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/Rock/Explosion/Explosion.cs" type="Script" id=1]
 [ext_resource path="res://Audio/Effects/SFX_8_Bit_Explosion.wav" type="AudioStream" id=2]
 
 [sub_resource type="Curve" id=1]

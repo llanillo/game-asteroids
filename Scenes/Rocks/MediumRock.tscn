@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Sprites/Rocks/TSmall_Rock1.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/Rock/Rock.cs" type="Script" id=2]
-[ext_resource path="res://Sprites/Rocks/TSmall_Rock3.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/Rock/Types/MediumRock.cs" type="Script" id=1]
+[ext_resource path="res://Sprites/Rocks/TSmall_Rock3.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Rocks/TSmall_Rock1.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Rocks/TSmall_Rock2.png" type="Texture" id=4]
-[ext_resource path="res://Scripts/Rock/Explosion.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Rocks/Explosion.tscn" type="PackedScene" id=5]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -13,12 +13,12 @@ animations = [ {
 "name": "Type 2",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 1 ) ],
+"frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "Type 1",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ) ],
+"frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "Type 3",
 "speed": 5.0
@@ -31,9 +31,7 @@ radius = 32.0
 collision_layer = 2
 gravity_scale = 0.0
 linear_damp = 0.0
-script = ExtResource( 2 )
-MinSpeed = 200
-MaxSpeed = 300
+script = ExtResource( 1 )
 _explosionScene = ExtResource( 5 )
 
 [node name="AnimSprite" type="AnimatedSprite" parent="."]

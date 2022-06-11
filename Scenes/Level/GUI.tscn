@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Fonts/Hyperspace/Hyperspace Bold.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://Scripts/Level/UserInterface.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/Manager/UserInterface.cs" type="Script" id=2]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32

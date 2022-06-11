@@ -7,10 +7,9 @@ namespace Asteroids.Scripts.Player.Controllers.Attack
         [Export] private float _bulletSpeed = 500.0f;
         [Export] private PackedScene _bulletScene;
 
-        protected float BulletSpeed => _bulletSpeed;
-        
         protected Position2D BulletSpawnPosition { get; private set; }
-
+        
+        protected float BulletSpeed => _bulletSpeed;
 
         public override void _Ready()
         {
