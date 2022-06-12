@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Fonts/Hyperspace/Hyperspace Bold.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://Scripts/Manager/UserInterface.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/UserInterface/UserInterface.cs" type="Script" id=2]
+[ext_resource path="res://Scenes/UserInterface/WaveLabel.tscn" type="PackedScene" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -46,12 +47,15 @@ font_data = ExtResource( 1 )
 [node name="Canvas" type="CanvasLayer"]
 script = ExtResource( 2 )
 
-[node name="Score_Label" type="Label" parent="."]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -46.0
-margin_right = 46.0
-margin_bottom = 150.0
+[node name="WaveLabel" parent="." instance=ExtResource( 3 )]
+
+[node name="ScoreLabel" type="Label" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -149.0
+margin_top = 30.0
+margin_right = -50.0
+margin_bottom = 127.0
 custom_fonts/font = SubResource( 1 )
 text = "Score"
 align = 1
@@ -71,7 +75,7 @@ text = "Asteroids"
 align = 1
 valign = 1
 
-[node name="Play_Button" type="Button" parent="."]
+[node name="PlayButton" type="Button" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -86,11 +90,11 @@ custom_styles/pressed = SubResource( 5 )
 custom_styles/normal = SubResource( 4 )
 text = "Play"
 
-[node name="Message_Timer" type="Timer" parent="."]
+[node name="MessageTimer" type="Timer" parent="."]
 wait_time = 3.5
 one_shot = true
 
-[node name="Credits_VBox" type="VBoxContainer" parent="."]
+[node name="CreditsVBox" type="VBoxContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -102,7 +106,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="CodeCredits_RichLabel" type="RichTextLabel" parent="Credits_VBox"]
+[node name="CreditsRichLabel" type="RichTextLabel" parent="CreditsVBox"]
 margin_right = 954.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
@@ -113,14 +117,14 @@ bbcode_text = "[center]Created  by [url=https://github.com/llanillo]Llanillo[/ur
 text = "Created  by Llanillo"
 scroll_active = false
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Credits_VBox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CreditsVBox"]
 margin_top = 26.0
 margin_right = 954.0
 margin_bottom = 48.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="MusicCredit_RichLabel" type="RichTextLabel" parent="Credits_VBox/HBoxContainer"]
+[node name="MusicCreditRichLabel" type="RichTextLabel" parent="CreditsVBox/HBoxContainer"]
 margin_right = 475.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
@@ -130,7 +134,7 @@ bbcode_enabled = true
 bbcode_text = "[center]Music by [url=https://www.newgrounds.com/audio/listen/523245]Exaro[/url][/center]"
 text = "Music by Exaro"
 
-[node name="SFXCredit_RichLabel2" type="RichTextLabel" parent="Credits_VBox/HBoxContainer"]
+[node name="SFXCreditRichLabel" type="RichTextLabel" parent="CreditsVBox/HBoxContainer"]
 margin_left = 479.0
 margin_right = 954.0
 margin_bottom = 22.0
@@ -141,7 +145,7 @@ bbcode_enabled = true
 bbcode_text = "[center]Shoot audio  by [url=https://freesound.org/people/MusicLegends/sounds/344310/]MusicLegends[/url][/center]"
 text = "Shoot audio  by MusicLegends"
 
-[node name="SFXCredit_RichLabel3" type="RichTextLabel" parent="Credits_VBox"]
+[node name="SFXCreditRichLabel" type="RichTextLabel" parent="CreditsVBox"]
 margin_top = 52.0
 margin_right = 954.0
 margin_bottom = 75.0

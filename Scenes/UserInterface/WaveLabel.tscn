@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Fonts/Hyperspace/Hyperspace Bold Italic.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://Scripts/UserInterface/WaveLabel.cs" type="Script" id=2]
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+uniform float height = 4.0;
+uniform float speed = 8.0;
+uniform float frequency = 10.0;
+
+void vertex(){
+	VERTEX.y += height * sin((frequency * UV.x) + (speed * TIME));
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+shader_param/height = 4.0
+shader_param/speed = 8.0
+shader_param/frequency = 10.0
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 1 )
+
+[node name="WaveLabel" type="CanvasLayer"]
+script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+material = SubResource( 3 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -260.5
+margin_top = 70.0
+margin_right = 260.5
+margin_bottom = 119.0
+custom_fonts/font = SubResource( 1 )
+text = "BIGGER ROCKS"
+align = 1
+valign = 1
+
+[node name="VisibleTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
