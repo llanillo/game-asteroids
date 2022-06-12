@@ -1,12 +1,14 @@
 using Godot;
-using System;
 
-public class PlayerRotation : Node
+namespace Asteroids.Scripts.Player.Controllers.Movement
 {
-    private const float RotationSpeed = 4.5f;
-
-    public float CalculateRotation(float delta, Vector2 inputVelocity)
+    public class PlayerRotation : Node
     {
-        return inputVelocity.x * RotationSpeed * delta;
+        private const float RotationSpeed = 6.5f;
+
+        public float CalculateRotation(float delta, Vector2 inputVelocity)
+        {
+            return inputVelocity.x * RotationSpeed * delta;
+        }
     }
 }

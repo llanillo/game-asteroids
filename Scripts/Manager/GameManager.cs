@@ -1,6 +1,7 @@
 using Asteroids.Scripts.Player.Controllers.Manager;
-using Asteroids.Scripts.Rock.Types;
+using Asteroids.Scripts.Rock.Implementation;
 using Godot;
+using Godot.Collections;
 
 namespace Asteroids.Scripts.Manager
 {
@@ -9,13 +10,14 @@ namespace Asteroids.Scripts.Manager
 		public static GameStatus GameStatus = GameStatus.Stop;
 
 		private const float RockRotation = Mathf.Pi / 4;
+		private const int ScorePerSecond = 1;
 
 		[Export] private PackedScene _mediumRockScene;
 		[Export] private PackedScene _bigRockScene;
 		[Export] private PackedScene _playerScene;
 
 		private AudioManager _audioManager;
-		private UserInterface _userInterface;
+		private UserInterface.UserInterface _userInterface;
 		private Position2D _startPosition;
 		private PlayerManager _player;
 	
@@ -36,12 +38,12 @@ namespace Asteroids.Scripts.Manager
 			_startTimer = GetNode<Timer>("Timers/Start_Timer");
 			_scoreTimer = GetNode<Timer>("Timers/Score_Timer");
 			_rockTimer = GetNode<Timer>("Timers/Rock_Timer");
-			_userInterface = GetNode<UserInterface>("Canvas");
+			_userInterface = GetNode<UserInterface.UserInterface>("Canvas");
 			_audioManager = GetNode<AudioManager>("AudioManager");
 			_rockPathFollow = GetNode<PathFollow2D>("Rock_Path/Rock_PathFollow");
 		
 			_startTimer.Connect("timeout", this, "OnStartTimerTimeout");
-			_scoreTimer.Connect("timeout", this, "OnScoreTimerTimeout");
+			_scoreTimer.Connect("timeout", this, "UpdateScore", new Array{ScorePerSecond});
 			_rockTimer.Connect("timeout", this, "OnRockTimerTimeout");
 			_userInterface.Connect("StartGame", this, "RestartGame"); // Connects play button pressed to restart game
 		}
@@ -78,8 +80,8 @@ namespace Asteroids.Scripts.Manager
 		}
 
 		/*
-	 * Called on start timer timeout signal
-	 */
+		* Called on start timer timeout signal
+		*/
 		private void OnStartTimerTimeout()
 		{
 			_rockTimer.Start();
@@ -87,8 +89,8 @@ namespace Asteroids.Scripts.Manager
 		}
 
 		/*
-	 * Called on score timer timeout signal
-	 */
+		* Called on score timer timeout signal
+		*/
 		private void OnScoreTimerTimeout()
 		{
 			_score += 1;
@@ -96,8 +98,16 @@ namespace Asteroids.Scripts.Manager
 		}
 
 		/*
-	 * Called on rock timer timeout signal
-	 */
+		 * Add score to the total score of the game manager and user interface
+		 */
+		public void UpdateScore(int score)
+		{
+			_score += score;
+			_userInterface.UpdateScore(_score);
+		}
+		/*
+		* Called on rock timer timeout signal
+		*/
 		private void OnRockTimerTimeout()
 		{
 			if (_bigRockScene is null || _mediumRockScene is null) return;
@@ -128,8 +138,8 @@ namespace Asteroids.Scripts.Manager
 		}
 
 		/*
-	 * Spawn player at given position
-	 */
+		* Spawn player at given position
+		*/
 		private void SpawnPlayer(Position2D position2D)
 		{
 			if (_playerScene is null) return;

@@ -1,6 +1,7 @@
 ﻿using Asteroids.Scripts.Player.Controllers.Animation;
 using Asteroids.Scripts.Player.Controllers.Attack;
 using Asteroids.Scripts.Player.Controllers.Input;
+using Asteroids.Scripts.Player.Controllers.Movement;
 using Godot;
 
 namespace Asteroids.Scripts.Player.Controllers.Manager

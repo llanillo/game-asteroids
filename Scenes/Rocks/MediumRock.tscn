@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Scripts/Rock/Types/MediumRock.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/Rock/Implementation/MediumRock.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Rocks/TSmall_Rock3.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Rocks/TSmall_Rock1.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Rocks/TSmall_Rock2.png" type="Texture" id=4]
