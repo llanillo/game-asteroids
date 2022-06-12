@@ -1,14 +1,12 @@
-using System;
-using System.Collections.Generic;
-using Asteroids.Scripts.Rock.Interface;
 using Godot;
 
-namespace Asteroids.Scripts.Rock.Types
+namespace Asteroids.Scripts.Rock.Implementation
 {
 	public class MediumRock : Interface.Rock
 	{
-		[Export] public override int MinSpeed { get; set; } = 200;
-		[Export] public override int MaxSpeed { get; set; } = 300;
+		[Export] public override int MinSpeed { get; set; } = 300;
+		[Export] public override int MaxSpeed { get; set; } = 370;
+		[Export] public override int DestroyedScore { get; set; } = 5;
 		
 		private AnimatedSprite _rockAnimatedSprite;
 		

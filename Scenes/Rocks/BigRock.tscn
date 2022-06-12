@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Scripts/Rock/Types/BigRock.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/Rock/Implementation/BigRock.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Rocks/TBig_Rock1.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Rocks/TBig_Rock2.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Rocks/TBig_Rock3.png" type="Texture" id=4]
@@ -34,9 +34,7 @@ gravity_scale = 0.0
 linear_damp = 0.0
 script = ExtResource( 1 )
 _explosionScene = ExtResource( 6 )
-MinSpeed = 175
-MaxSpeed = 200
-_smallRockScene = ExtResource( 5 )
+_mediumRockScene = ExtResource( 5 )
 
 [node name="AnimSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.4, 0.4 )

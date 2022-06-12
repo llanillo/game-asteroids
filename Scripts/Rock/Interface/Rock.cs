@@ -7,19 +7,22 @@ namespace Asteroids.Scripts.Rock.Interface
     public abstract class Rock : RigidBody2D
     {
         [Export] private PackedScene _explosionScene;
-        
+
         private VisibilityNotifier2D _visibilityNotifier;
+        private GameManager _gameManager;
         private Rect2 _viewportRect;
         
         private const float ScreenWrapOffset = 50.0f;
         
         public abstract int MinSpeed { get; set; }
         public abstract int MaxSpeed { get; set; }
+        public abstract int DestroyedScore { get; set; }
         
         public override void _Ready()
         {
             _viewportRect = GetViewportRect();
-            
+
+            _gameManager = GetNode<GameManager>("/root/World");
             _visibilityNotifier = GetNode<VisibilityNotifier2D>("VisibilityNotifier");
             _visibilityNotifier.Connect("screen_exited", this, "OnScreenExited");
         }
@@ -29,21 +32,14 @@ namespace Asteroids.Scripts.Rock.Interface
         */
         public virtual void DestroyRock()
         {
-            CreateExplosion(GlobalPosition);
-            QueueFree();
-        }
-        
-        /*
-         * Creates a particle effect explosion at the given position
-         */
-        private void CreateExplosion(Vector2 position)
-        {
             if (!(_explosionScene?.Instance() is Explosion explosionInstance)) return;
 		
+            _gameManager.UpdateScore(DestroyedScore);
             GetTree().Root.AddChild(explosionInstance);
-            explosionInstance.EmitsExplosion(position);
+            explosionInstance.EmitsExplosion(GlobalPosition);
+            QueueFree();
         }
-        
+
         /*
         * Apply a central impulse to the rock's rigidbody with the given rotation
         */
