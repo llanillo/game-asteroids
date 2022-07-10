@@ -2,7 +2,7 @@
 
 ## Description
 
-2D Topdown game for **Godot Engine** made with C# and GDScripts. Currently in development.
+Multidirectional shooter arcade 2D game made with **Godot Engine** and C#.
 
 ## Installation
 
@@ -17,13 +17,8 @@
 3. Open it with Godot Engine.
 
 ```bash
-$ git clone https://github.com/llanillo/GGJ-2022-Judgment-of-lost-souls
+$ git clone https://github.com/llanillo/Asteroids
 ```
 
-## Screenshots
-![Endless Runner - Unreal Engine 4](Screenshots/Idle.png)
-![Endless Runner - Unreal Engine 4](Screenshots/Playing.png)
-
-## Credits
-
-### Assets
+## Preview
+![Asteroids 2D](Media/Preview.gif)
