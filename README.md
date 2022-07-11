@@ -3,6 +3,7 @@
 ## Description
 
 Multidirectional shooter arcade 2D game made with **Godot Engine** and C#.
+The colors of the game vary according to the music.
 
 ## Installation
 
