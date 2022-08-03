@@ -1,6 +1,3 @@
-using Asteroids.Rock.Interface;
-using Godot;
-
 namespace Asteroids
 {
     public class Bullet : RigidBody2D

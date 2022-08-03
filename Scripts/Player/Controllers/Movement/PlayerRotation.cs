@@ -1,5 +1,3 @@
-using Godot;
-
 namespace Asteroids.Player.Controllers.Movement
 {
     public class PlayerRotation : Node

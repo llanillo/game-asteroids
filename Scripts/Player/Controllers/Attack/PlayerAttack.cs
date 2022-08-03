@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using Godot;
-
 namespace Asteroids.Player.Controllers.Attack
 {
     public class PlayerAttack : Attack

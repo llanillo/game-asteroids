@@ -1,6 +1,3 @@
-using Godot;
-using System;
-
 namespace Asteroids
 {
     public class AudioEffect : Tween

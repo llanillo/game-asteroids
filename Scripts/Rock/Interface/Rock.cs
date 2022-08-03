@@ -1,6 +1,5 @@
 ﻿using System;
 using Asteroids.Manager;
-using Godot;
 
 namespace Asteroids.Rock.Interface
 {

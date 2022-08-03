@@ -1,5 +1,3 @@
-using Godot;
-
 namespace Asteroids
 {
     public class FadeInAudio : AudioEffect

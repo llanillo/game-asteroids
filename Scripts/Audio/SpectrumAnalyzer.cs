@@ -1,7 +1,3 @@
-using System;
-using System.ComponentModel;
-using Godot;
-
 namespace Asteroids
 {
     public class SpectrumAnalyzer : Node2D

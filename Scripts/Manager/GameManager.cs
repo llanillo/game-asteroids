@@ -1,6 +1,9 @@
-using Asteroids.Player.Controllers.Manager;
-using Asteroids.Rock.Implementation;
-using Godot;
+global using Godot;
+global using Asteroids.Player.Controllers.Manager;
+global using Asteroids.Rock.Implementation;
+global using System.Linq;
+global using System.Collections.Generic;
+
 using Godot.Collections;
 
 namespace Asteroids.Manager
