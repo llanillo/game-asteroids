@@ -1,7 +1,7 @@
 using System.Net;
 using Godot;
 
-namespace Asteroids.Scripts.UserInterface
+namespace Asteroids.UserInterface
 {
     public class WaveLabel : CanvasLayer
     {

@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace Asteroids.Scripts.Player.Controllers.Attack
+namespace Asteroids.Player.Controllers.Attack
 {
     public abstract class Attack : Node
     {

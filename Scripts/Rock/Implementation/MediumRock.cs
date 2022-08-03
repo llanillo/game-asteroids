@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Asteroids.Scripts.Rock.Implementation
+namespace Asteroids.Rock.Implementation
 {
 	public class MediumRock : Interface.Rock
 	{

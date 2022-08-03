@@ -1,8 +1,8 @@
 ﻿using System;
-using Asteroids.Scripts.Manager;
+using Asteroids.Manager;
 using Godot;
 
-namespace Asteroids.Scripts.Rock.Interface
+namespace Asteroids.Rock.Interface
 {
     public abstract class Rock : RigidBody2D
     {

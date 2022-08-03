@@ -2,7 +2,7 @@ using Godot;
 using System;
 using Object = Godot.Object;
 
-namespace Asteroids.Scripts
+namespace Asteroids
 {
     public class AudioManager : Node2D
     {

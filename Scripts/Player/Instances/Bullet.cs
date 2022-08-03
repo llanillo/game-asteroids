@@ -1,4 +1,4 @@
-using Asteroids.Scripts.Rock.Interface;
+using Asteroids.Rock.Interface;
 using Godot;
 
 namespace Asteroids
@@ -22,7 +22,7 @@ namespace Asteroids
          */
         private void OnBulletBodyEntered(Node body)
         {
-            if (!(body is Rock rock)) return;
+            if (!(body is Asteroids.Rock.Interface.Rock rock)) return;
 
             rock.DestroyRock();
             QueueFree();

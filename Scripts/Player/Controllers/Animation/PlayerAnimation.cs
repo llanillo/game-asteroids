@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace Asteroids.Scripts.Player.Controllers.Animation
+namespace Asteroids.Player.Controllers.Animation
 {
     public class PlayerAnimation : Node
     {

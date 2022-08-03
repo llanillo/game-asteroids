@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Asteroids.Scripts.Rock.Implementation
+namespace Asteroids.Rock.Implementation
 {
     public class BigRock : Interface.Rock
     {
@@ -19,7 +19,7 @@ namespace Asteroids.Scripts.Rock.Implementation
         {
             for (uint i = 0; i < _amountMediumRocks; i++)
             {
-                if(!(_mediumRockScene?.Instance() is global::Asteroids.Scripts.Rock.Implementation.MediumRock smallRockInstance)) return;
+                if(!(_mediumRockScene?.Instance() is global::Asteroids.Rock.Implementation.MediumRock smallRockInstance)) return;
                 GetTree().Root.CallDeferred("add_child", smallRockInstance); // Delay the AddChild method until engine is ready to execute it
             
                 double rockRotation = GD.RandRange(-Mathf.Pi, Mathf.Pi);

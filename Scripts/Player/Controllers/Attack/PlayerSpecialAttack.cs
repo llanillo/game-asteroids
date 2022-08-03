@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Godot;
 
-namespace Asteroids.Scripts.Player.Controllers.Attack
+namespace Asteroids.Player.Controllers.Attack
 {
     public class PlayerSpecialAttack : Attack
     {

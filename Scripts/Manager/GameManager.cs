@@ -1,9 +1,9 @@
-using Asteroids.Scripts.Player.Controllers.Manager;
-using Asteroids.Scripts.Rock.Implementation;
+using Asteroids.Player.Controllers.Manager;
+using Asteroids.Rock.Implementation;
 using Godot;
 using Godot.Collections;
 
-namespace Asteroids.Scripts.Manager
+namespace Asteroids.Manager
 {
 	public class GameManager : Node
 	{

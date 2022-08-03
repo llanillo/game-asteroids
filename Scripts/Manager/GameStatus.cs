@@ -1,4 +1,4 @@
-﻿namespace Asteroids.Scripts.Manager
+﻿namespace Asteroids.Manager
 {
     public enum GameStatus : uint
     {
