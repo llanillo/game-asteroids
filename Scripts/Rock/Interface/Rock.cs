@@ -5,7 +5,7 @@ namespace Asteroids.Rock.Interface
 {
     public abstract class Rock : RigidBody2D
     {
-        [Export] private PackedScene _explosionScene;
+        [Export] protected PackedScene _explosionScene;
 
         private VisibilityNotifier2D _visibilityNotifier;
         private GameManager _gameManager;

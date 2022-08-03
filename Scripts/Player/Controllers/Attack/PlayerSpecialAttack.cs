@@ -2,7 +2,7 @@
 {
     public class PlayerSpecialAttack : Attack
     {
-        [Export] private int _numberSpecials = 3;
+        [Export] protected int _numberSpecials = 3;
         
         private Timer _specialTimer;
         

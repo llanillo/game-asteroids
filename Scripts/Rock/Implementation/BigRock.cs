@@ -6,8 +6,8 @@ namespace Asteroids.Rock.Implementation
         [Export] public override int MaxSpeed { get; set; } = 320;
         [Export] public override int DestroyedScore { get; set; } = 10;
         
-        [Export] private PackedScene _mediumRockScene;
-        [Export] private int _amountMediumRocks = 3;
+        [Export] protected PackedScene _mediumRockScene;
+        [Export] protected int _amountMediumRocks = 3;
 
         /*
         * Create a certain amount of medium rocks with random impulse when

@@ -2,7 +2,7 @@ namespace Asteroids.Player.Controllers.Movement
 {
     public class PlayerMovement : Node
     {
-        [Export] private float _speed = 500;
+        [Export] protected float _speed = 500;
     
         private const float Acceleration = 0.2f;
         private const float Friction = 0.02f;

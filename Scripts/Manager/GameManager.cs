@@ -15,9 +15,9 @@ namespace Asteroids.Manager
 		private const float RockRotation = Mathf.Pi / 4;
 		private const int ScorePerSecond = 1;
 
-		[Export] private PackedScene _mediumRockScene;
-		[Export] private PackedScene _bigRockScene;
-		[Export] private PackedScene _playerScene;
+		[Export] protected PackedScene _mediumRockScene;
+		[Export] protected PackedScene _bigRockScene;
+		[Export] protected PackedScene _playerScene;
 
 		private AudioManager _audioManager;
 		private UserInterface.UserInterface _userInterface;

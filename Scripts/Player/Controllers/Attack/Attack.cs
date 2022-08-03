@@ -2,8 +2,8 @@
 {
     public abstract class Attack : Node
     {
-        [Export] private float _bulletSpeed = 500.0f;
-        [Export] private PackedScene _bulletScene;
+        [Export] protected float _bulletSpeed = 500.0f;
+        [Export] protected PackedScene _bulletScene;
 
         protected Position2D BulletSpawnPosition { get; private set; }
         
