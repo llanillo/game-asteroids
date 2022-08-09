@@ -4,7 +4,8 @@ global using Asteroids.Rock.Implementation;
 global using System.Linq;
 global using System.Collections.Generic;
 
-using Godot.Collections;
+using System;
+using Array = Godot.Collections.Array;
 
 namespace Asteroids.Manager
 {
@@ -36,14 +37,18 @@ namespace Asteroids.Manager
 		public override void _Ready()
 		{
 			GD.Randomize();
-		
-			_startPosition = GetNode<Position2D>("Start_Position");
-			_startTimer = GetNode<Timer>("Timers/Start_Timer");
-			_scoreTimer = GetNode<Timer>("Timers/Score_Timer");
-			_rockTimer = GetNode<Timer>("Timers/Rock_Timer");
-			_userInterface = GetNode<UserInterface.UserInterface>("Canvas");
-			_audioManager = GetNode<AudioManager>("AudioManager");
-			_rockPathFollow = GetNode<PathFollow2D>("Rock_Path/Rock_PathFollow");
+
+			_startPosition = GetNode<Position2D>("Start_Position") ??
+			                 throw new ArgumentNullException(nameof(_startPosition));
+			_startTimer = GetNode<Timer>("Timers/Start_Timer") ?? throw new ArgumentNullException(nameof(_startTimer));
+			_scoreTimer = GetNode<Timer>("Timers/Score_Timer") ?? throw new ArgumentNullException(nameof(_scoreTimer));
+			_rockTimer = GetNode<Timer>("Timers/Rock_Timer") ?? throw new ArgumentNullException(nameof(_rockTimer));
+			_userInterface = GetNode<UserInterface.UserInterface>("Canvas") ??
+			                 throw new ArgumentNullException(nameof(_userInterface));
+			_audioManager = GetNode<AudioManager>("AudioManager") ??
+			                throw new ArgumentNullException(nameof(_audioManager));
+			_rockPathFollow = GetNode<PathFollow2D>("Rock_Path/Rock_PathFollow") ??
+			                  throw new ArgumentNullException(nameof(_rockPathFollow));
 		
 			_startTimer.Connect("timeout", this, "OnStartTimerTimeout");
 			_scoreTimer.Connect("timeout", this, "UpdateScore", new Array{ScorePerSecond});

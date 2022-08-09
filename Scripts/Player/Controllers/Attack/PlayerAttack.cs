@@ -1,3 +1,5 @@
+using System;
+
 namespace Asteroids.Player.Controllers.Attack
 {
     public class PlayerAttack : Attack
@@ -11,8 +13,8 @@ namespace Asteroids.Player.Controllers.Attack
         public override void _Ready()
         {
             base._Ready();
-            _bulletTimer = GetNode<Timer>("../../Timers/BulletTimer");
-            _bulletAudioStream = GetNode<AudioStreamPlayer>("../../ShootAudioStream");
+            _bulletTimer = GetNode<Timer>("../../Timers/BulletTimer") ?? throw new ArgumentNullException(nameof(_bulletTimer));
+            _bulletAudioStream = GetNode<AudioStreamPlayer>("../../ShootAudioStream") ?? throw new ArgumentNullException(nameof(_bulletAudioStream));
             
             _bulletTimer.Connect("timeout", this, "OnBulletTimerTimeout");
         }

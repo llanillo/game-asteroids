@@ -1,4 +1,6 @@
-﻿namespace Asteroids.Player.Controllers.Animation
+﻿using System;
+
+namespace Asteroids.Player.Controllers.Animation
 {
     public class PlayerAnimation : Node
     {
@@ -9,8 +11,9 @@
 
         public override void _Ready()
         {
-            _burstAnimationPlayer = GetNode<AnimationPlayer>("../../AnimationPlayerBurst");
-            _burstLine = GetNode<Line2D>("../../PlayerShape/LineBurst");
+            _burstAnimationPlayer = GetNode<AnimationPlayer>("../../AnimationPlayerBurst") ??
+                                    throw new ArgumentNullException(nameof(_burstAnimationPlayer));
+            _burstLine = GetNode<Line2D>("../../PlayerShape/LineBurst") ?? throw new ArgumentNullException(nameof(_burstLine));
         }
         
         /*

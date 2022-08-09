@@ -1,3 +1,5 @@
+using System;
+
 namespace Asteroids.UserInterface
 {
     public class WaveLabel : CanvasLayer
@@ -8,8 +10,8 @@ namespace Asteroids.UserInterface
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
-            _visibleTimer = GetNode<Timer>("VisibleTimer");
-            _waveLabel = GetNode<Label>("Label");
+            _visibleTimer = GetNode<Timer>("VisibleTimer") ?? throw new ArgumentNullException(nameof(_visibleTimer));
+            _waveLabel = GetNode<Label>("Label") ?? throw new ArgumentNullException(nameof(_waveLabel));
             
             _waveLabel.Hide();
             _visibleTimer.Connect("timeout", this, "OnVisibleTimerTimeout");

@@ -1,3 +1,5 @@
+using System;
+
 namespace Asteroids
 {
     public class AudioManager : Node2D
@@ -17,10 +19,10 @@ namespace Asteroids
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
-            _audioStreamPlayer = GetNode<AudioStreamPlayer>("Music_AudioStream");
-            _spectrumAnalyzer = GetNode<SpectrumAnalyzer>("/root/World/Spectrum_Analyzer");
-            _fadeOutAudio = GetNode<FadeOutAudio>("FadeOut_Tween");
-            _fadeInAudio = GetNode<FadeInAudio>("FadeIn_Tween");
+            _audioStreamPlayer = GetNode<AudioStreamPlayer>("Music_AudioStream") ?? throw new ArgumentNullException(nameof(_audioStreamPlayer));
+            _spectrumAnalyzer = GetNode<SpectrumAnalyzer>("/root/World/Spectrum_Analyzer") ?? throw new ArgumentNullException(nameof(_spectrumAnalyzer));
+            _fadeOutAudio = GetNode<FadeOutAudio>("FadeOut_Tween") ?? throw new ArgumentNullException(nameof(_fadeOutAudio));
+            _fadeInAudio = GetNode<FadeInAudio>("FadeIn_Tween") ?? throw new ArgumentNullException(nameof(_fadeInAudio));
 
             _spectrumAnalyzer.SetAudioStreamPlayer(_audioStreamPlayer);
         }

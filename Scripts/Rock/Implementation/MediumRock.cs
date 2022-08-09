@@ -1,3 +1,5 @@
+using System;
+
 namespace Asteroids.Rock.Implementation
 {
 	public class MediumRock : Interface.Rock
@@ -15,7 +17,7 @@ namespace Asteroids.Rock.Implementation
 		{
 			base._Ready();
 			GD.Randomize();
-			_rockAnimatedSprite = GetNode<AnimatedSprite>("AnimSprite");
+			_rockAnimatedSprite = GetNode<AnimatedSprite>("AnimSprite") ?? throw new ArgumentNullException(nameof(_rockAnimatedSprite));
 			SetRandomSprite(_rockTypes);
 		}
 		

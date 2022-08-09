@@ -1,4 +1,6 @@
-﻿namespace Asteroids.Player.Controllers.Attack
+﻿using System;
+
+namespace Asteroids.Player.Controllers.Attack
 {
     public abstract class Attack : Node
     {
@@ -11,7 +13,8 @@
 
         public override void _Ready()
         {
-            BulletSpawnPosition = GetNode<Position2D>("../../BulletPosition");
+            BulletSpawnPosition = GetNode<Position2D>("../../BulletPosition") ??
+                                  throw new ArgumentNullException(nameof(BulletSpawnPosition));
         }
 
         /*

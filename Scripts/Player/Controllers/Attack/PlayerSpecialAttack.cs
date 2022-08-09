@@ -1,4 +1,6 @@
-﻿namespace Asteroids.Player.Controllers.Attack
+﻿using System;
+
+namespace Asteroids.Player.Controllers.Attack
 {
     public class PlayerSpecialAttack : Attack
     {
@@ -12,7 +14,7 @@
         public override void _Ready()
         {
             base._Ready();
-            _specialTimer = GetNode<Timer>("../../Timers/SpecialTimer");
+            _specialTimer = GetNode<Timer>("../../Timers/SpecialTimer") ?? throw new ArgumentNullException(nameof(_specialTimer));
             _specialTimer.Connect("timeout", this, "OnSpecialTimerTimeout");
         }
 

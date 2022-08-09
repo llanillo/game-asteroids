@@ -1,3 +1,5 @@
+using System;
+
 namespace Asteroids
 {
     public class Bullet : RigidBody2D
@@ -8,7 +10,7 @@ namespace Asteroids
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
-            _visibilityNotifier = GetNode<VisibilityNotifier2D>("VisibilityNotifier");
+            _visibilityNotifier = GetNode<VisibilityNotifier2D>("VisibilityNotifier") ?? throw new ArgumentNullException(nameof(_visibilityNotifier));
             _visibilityNotifier.Connect("screen_exited", this, "OnScreenExited");
 
             Connect("body_entered", this, "OnBulletBodyEntered");

@@ -1,4 +1,5 @@
-﻿using Asteroids.Player.Controllers.Animation;
+﻿using System;
+using Asteroids.Player.Controllers.Animation;
 using Asteroids.Player.Controllers.Attack;
 using Asteroids.Player.Controllers.Input;
 using Asteroids.Player.Controllers.Movement;
@@ -25,16 +26,16 @@ namespace Asteroids.Player.Controllers.Manager
         {
             Hide();
             _viewportRect = GetViewportRect();
-        
-            _playerInput = GetNode<PlayerInput>("Controllers/PlayerInput");
-            _playerMovement = GetNode<PlayerMovement>("Controllers/PlayerMovement");
-            _playerRotation = GetNode<PlayerRotation>("Controllers/PlayerRotation");
-        
-            _playerAttack = GetNode<PlayerAttack>("Controllers/PlayerAttack");
-            _playerSpecialAttack = GetNode<PlayerSpecialAttack>("Controllers/PlayerSpecialAttack");
-        
-            _playerAnimation = GetNode<PlayerAnimation>("Controllers/PlayerAnimation");
-            _collisionPolygon = GetNode<CollisionPolygon2D>("CollisionPolygon");
+
+            _playerInput = GetNode<PlayerInput>("Controllers/PlayerInput") ??
+                           throw new ArgumentNullException(nameof(_playerInput));
+            _playerMovement = GetNode<PlayerMovement>("Controllers/PlayerMovement") ?? throw new ArgumentNullException(nameof(_playerMovement));
+            _playerRotation = GetNode<PlayerRotation>("Controllers/PlayerRotation") ?? throw new ArgumentNullException(nameof(_playerRotation));
+            _playerAttack = GetNode<PlayerAttack>("Controllers/PlayerAttack") ??
+                            throw new ArgumentNullException(nameof(_playerAttack));
+            _playerSpecialAttack = GetNode<PlayerSpecialAttack>("Controllers/PlayerSpecialAttack") ?? throw new ArgumentNullException(nameof(_playerSpecialAttack));
+            _playerAnimation = GetNode<PlayerAnimation>("Controllers/PlayerAnimation") ?? throw new ArgumentNullException(nameof(_playerAnimation));
+            _collisionPolygon = GetNode<CollisionPolygon2D>("CollisionPolygon") ?? throw new ArgumentNullException(nameof(_collisionPolygon));
         
             Connect("body_entered", this, "OnPlayerBodyEntered");
         }

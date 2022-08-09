@@ -18,8 +18,8 @@ namespace Asteroids.Manager
         public override void _Ready()
         {
             GD.Randomize();
-            _canvasModulate = GetNode<CanvasModulate>("CanvasModulate");
-            _spectrumAnalyzer = GetNode<SpectrumAnalyzer>("/root/World/Spectrum_Analyzer");
+            _canvasModulate = GetNode<CanvasModulate>("CanvasModulate") ?? throw new ArgumentNullException(nameof(_canvasModulate));
+            _spectrumAnalyzer = GetNode<SpectrumAnalyzer>("/root/World/Spectrum_Analyzer") ?? throw new ArgumentNullException(nameof(_spectrumAnalyzer));
         }
 
         // Called every frame. 'delta' is the elapsed time since the previous frame.

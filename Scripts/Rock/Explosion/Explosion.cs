@@ -1,3 +1,5 @@
+using System;
+
 namespace Asteroids
 {
     public class Explosion : Node2D
@@ -12,9 +14,10 @@ namespace Asteroids
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
-            _explosionParticles = GetNode<CPUParticles2D>("CPUParticles2D");
-            _explosionStreamPlayer = GetNode<AudioStreamPlayer>("Explosion_AudioStream");
-            _queueFreeTimer = GetNode<Timer>("QueueFree_Timer");
+            _explosionParticles = GetNode<CPUParticles2D>("CPUParticles2D") ??
+                                  throw new ArgumentNullException(nameof(_explosionParticles));
+            _explosionStreamPlayer = GetNode<AudioStreamPlayer>("Explosion_AudioStream") ?? throw new ArgumentNullException(nameof(_explosionStreamPlayer));
+            _queueFreeTimer = GetNode<Timer>("QueueFree_Timer") ?? throw new ArgumentNullException(nameof(_queueFreeTimer));
 
             _explosionParticles.Emitting = true;
             _queueFreeTimer.WaitTime = _explosionParticles.Lifetime + TimerOffset;

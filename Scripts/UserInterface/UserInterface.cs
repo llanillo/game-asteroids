@@ -1,3 +1,5 @@
+using System;
+
 namespace Asteroids.UserInterface
 {
     public class UserInterface : CanvasLayer
@@ -14,11 +16,11 @@ namespace Asteroids.UserInterface
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
-            _creditsVBox = GetNode<VBoxContainer>("CreditsVBox");
-            _playButton = GetNode<Button>("PlayButton");
-            _messageTimer = GetNode<Timer>("MessageTimer");
-            _messageLabel = GetNode<Label>("Message");
-            _scoreLabel = GetNode<Label>("ScoreLabel");
+            _creditsVBox = GetNode<VBoxContainer>("CreditsVBox") ?? throw new ArgumentNullException(nameof(_creditsVBox));
+            _playButton = GetNode<Button>("PlayButton") ?? throw new ArgumentNullException(nameof(_playButton));
+            _messageTimer = GetNode<Timer>("MessageTimer") ?? throw new ArgumentNullException(nameof(_messageTimer));
+            _messageLabel = GetNode<Label>("Message") ?? throw new ArgumentNullException(nameof(_messageLabel));
+            _scoreLabel = GetNode<Label>("ScoreLabel") ?? throw new ArgumentNullException(nameof(_scoreLabel));
         
         
             _scoreLabel.Hide();
