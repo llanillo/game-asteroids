@@ -1,9 +1,12 @@
-using Asteroids.Scripts.Player.Controllers.Manager;
-using Asteroids.Scripts.Rock.Implementation;
-using Godot;
+global using Godot;
+global using Asteroids.Player.Controllers.Manager;
+global using Asteroids.Rock.Implementation;
+global using System.Linq;
+global using System.Collections.Generic;
+
 using Godot.Collections;
 
-namespace Asteroids.Scripts.Manager
+namespace Asteroids.Manager
 {
 	public class GameManager : Node
 	{
@@ -12,9 +15,9 @@ namespace Asteroids.Scripts.Manager
 		private const float RockRotation = Mathf.Pi / 4;
 		private const int ScorePerSecond = 1;
 
-		[Export] private PackedScene _mediumRockScene;
-		[Export] private PackedScene _bigRockScene;
-		[Export] private PackedScene _playerScene;
+		[Export] protected PackedScene _mediumRockScene;
+		[Export] protected PackedScene _bigRockScene;
+		[Export] protected PackedScene _playerScene;
 
 		private AudioManager _audioManager;
 		private UserInterface.UserInterface _userInterface;

@@ -1,6 +1,4 @@
-using Godot;
-
-namespace Asteroids.Scripts.UserInterface
+namespace Asteroids.UserInterface
 {
     public class UserInterface : CanvasLayer
     {

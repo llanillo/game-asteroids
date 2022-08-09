@@ -1,6 +1,4 @@
-using Godot;
-
-namespace Asteroids.Scripts.Rock.Implementation
+namespace Asteroids.Rock.Implementation
 {
     public class BigRock : Interface.Rock
     {
@@ -8,8 +6,8 @@ namespace Asteroids.Scripts.Rock.Implementation
         [Export] public override int MaxSpeed { get; set; } = 320;
         [Export] public override int DestroyedScore { get; set; } = 10;
         
-        [Export] private PackedScene _mediumRockScene;
-        [Export] private int _amountMediumRocks = 3;
+        [Export] protected PackedScene _mediumRockScene;
+        [Export] protected int _amountMediumRocks = 3;
 
         /*
         * Create a certain amount of medium rocks with random impulse when
@@ -19,7 +17,7 @@ namespace Asteroids.Scripts.Rock.Implementation
         {
             for (uint i = 0; i < _amountMediumRocks; i++)
             {
-                if(!(_mediumRockScene?.Instance() is global::Asteroids.Scripts.Rock.Implementation.MediumRock smallRockInstance)) return;
+                if(!(_mediumRockScene?.Instance() is global::Asteroids.Rock.Implementation.MediumRock smallRockInstance)) return;
                 GetTree().Root.CallDeferred("add_child", smallRockInstance); // Delay the AddChild method until engine is ready to execute it
             
                 double rockRotation = GD.RandRange(-Mathf.Pi, Mathf.Pi);

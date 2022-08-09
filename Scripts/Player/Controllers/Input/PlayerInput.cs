@@ -1,6 +1,4 @@
-using Godot;
-
-namespace Asteroids.Scripts.Player.Controllers.Input
+namespace Asteroids.Player.Controllers.Input
 {
     public class PlayerInput : Node
     {

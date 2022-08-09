@@ -1,10 +1,9 @@
-﻿using Asteroids.Scripts.Player.Controllers.Animation;
-using Asteroids.Scripts.Player.Controllers.Attack;
-using Asteroids.Scripts.Player.Controllers.Input;
-using Asteroids.Scripts.Player.Controllers.Movement;
-using Godot;
+﻿using Asteroids.Player.Controllers.Animation;
+using Asteroids.Player.Controllers.Attack;
+using Asteroids.Player.Controllers.Input;
+using Asteroids.Player.Controllers.Movement;
 
-namespace Asteroids.Scripts.Player.Controllers.Manager
+namespace Asteroids.Player.Controllers.Manager
 {
     public class PlayerManager : Area2D
     {

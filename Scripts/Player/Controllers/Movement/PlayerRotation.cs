@@ -1,6 +1,4 @@
-using Godot;
-
-namespace Asteroids.Scripts.Player.Controllers.Movement
+namespace Asteroids.Player.Controllers.Movement
 {
     public class PlayerRotation : Node
     {

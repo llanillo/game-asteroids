@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using Godot;
-
-namespace Asteroids.Scripts.Player.Controllers.Attack
+﻿namespace Asteroids.Player.Controllers.Attack
 {
     public class PlayerSpecialAttack : Attack
     {
-        [Export] private int _numberSpecials = 3;
+        [Export] protected int _numberSpecials = 3;
         
         private Timer _specialTimer;
         

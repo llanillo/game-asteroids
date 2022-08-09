@@ -1,9 +1,9 @@
-using Godot;
-using System;
-
-public class AudioEffect : Tween
+namespace Asteroids
 {
-    protected static int LowestVolume { get; } = -80;
+    public class AudioEffect : Tween
+    {
+        protected static int LowestVolume { get; } = -80;
 
-    protected static string VolumeProperty { get; } = "volume_db";
+        protected static string VolumeProperty { get; } = "volume_db";
+    }
 }

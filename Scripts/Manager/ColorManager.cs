@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
-using Godot;
 
-namespace Asteroids.Scripts.Manager
+namespace Asteroids.Manager
 {
     public class ColorManager : Node2D
     {
