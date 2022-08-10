@@ -37,7 +37,7 @@ namespace Asteroids.Player.Controllers.Manager
             _playerAnimation = GetNode<PlayerAnimation>("Controllers/PlayerAnimation") ?? throw new ArgumentNullException(nameof(_playerAnimation));
             _collisionPolygon = GetNode<CollisionPolygon2D>("CollisionPolygon") ?? throw new ArgumentNullException(nameof(_collisionPolygon));
         
-            Connect("body_entered", this, "OnPlayerBodyEntered");
+            Connect(SignalUtil.BodyEntered, this, nameof(OnPlayerBodyEntered));
         }
     
         public override void _PhysicsProcess(float delta)

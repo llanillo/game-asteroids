@@ -6,7 +6,7 @@ namespace Asteroids
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
-            Connect("tween_started", this, "OnFadeInTweenCompleted");
+            Connect(SignalUtil.TweenStarted , this, nameof(OnTweenStarted));
         }
 
         /*
@@ -20,7 +20,7 @@ namespace Asteroids
             Start();
         }
 
-        private void OnFadeInTweenCompleted(Object @object, NodePath key)
+        private void OnTweenStarted(Object @object, NodePath key)
         {
             var audioStreamPlayer = (AudioStreamPlayer)@object;
             audioStreamPlayer.Play();

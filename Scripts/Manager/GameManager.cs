@@ -3,7 +3,7 @@ global using Asteroids.Player.Controllers.Manager;
 global using Asteroids.Rock.Implementation;
 global using System.Linq;
 global using System.Collections.Generic;
-
+global using Asteroids.Util;
 using System;
 using Array = Godot.Collections.Array;
 
@@ -49,11 +49,12 @@ namespace Asteroids.Manager
 			                throw new ArgumentNullException(nameof(_audioManager));
 			_rockPathFollow = GetNode<PathFollow2D>("Rock_Path/Rock_PathFollow") ??
 			                  throw new ArgumentNullException(nameof(_rockPathFollow));
-		
-			_startTimer.Connect("timeout", this, "OnStartTimerTimeout");
-			_scoreTimer.Connect("timeout", this, "UpdateScore", new Array{ScorePerSecond});
-			_rockTimer.Connect("timeout", this, "OnRockTimerTimeout");
-			_userInterface.Connect("StartGame", this, "RestartGame"); // Connects play button pressed to restart game
+
+			_startTimer.Connect(SignalUtil.Timeout, this, nameof(OnStartTimerTimeout));
+			_scoreTimer.Connect(SignalUtil.Timeout, this, nameof(UpdateScore), new Array{ScorePerSecond});
+			_rockTimer.Connect(SignalUtil.Timeout, this, nameof(OnRockTimerTimeout));
+			_userInterface.Connect(nameof(UserInterface.UserInterface.StartGame), this,
+				nameof(RestartGame));
 		}
 
 		/*
@@ -155,7 +156,7 @@ namespace Asteroids.Manager
 			_player = _playerScene.Instance() as PlayerManager;
 			AddChild(_player);
 			_player.RestartPosition(position2D.Position);
-			_player.Connect("HitSignal", this, "GameOver"); // Connects player hitting rock signal to game over
+			_player.Connect(nameof(PlayerManager.HitSignal), this, nameof(GameOver));
 		}
 	}
 }

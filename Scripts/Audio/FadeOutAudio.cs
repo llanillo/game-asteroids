@@ -8,7 +8,7 @@ namespace Asteroids
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
-            Connect("tween_completed", this, "OnFadeOutTweenCompleted");
+            Connect(SignalUtil.TweenCompleted, this, nameof(OnTweenCompleted));
         }
 
         /*
@@ -26,7 +26,7 @@ namespace Asteroids
         /*
          * Called when fade out tween completed signal is emitted
          */
-        private void OnFadeOutTweenCompleted(Object @object, NodePath key)
+        private void OnTweenCompleted(Object @object, NodePath key)
         {
             var audioStreamPlayer = (AudioStreamPlayer)@object;
             audioStreamPlayer.Stop();

@@ -21,7 +21,7 @@ namespace Asteroids
 
             _explosionParticles.Emitting = true;
             _queueFreeTimer.WaitTime = _explosionParticles.Lifetime + TimerOffset;
-            _queueFreeTimer.Connect("timeout", this, "OnQueueFreeTimerTimeout");
+            _queueFreeTimer.Connect(SignalUtil.Timeout, this, nameof(OnQueueFreeTimerTimeout));
         }
 
         /*

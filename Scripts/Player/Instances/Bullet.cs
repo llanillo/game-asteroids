@@ -11,9 +11,9 @@ namespace Asteroids
         public override void _Ready()
         {
             _visibilityNotifier = GetNode<VisibilityNotifier2D>("VisibilityNotifier") ?? throw new ArgumentNullException(nameof(_visibilityNotifier));
-            _visibilityNotifier.Connect("screen_exited", this, "OnScreenExited");
+            _visibilityNotifier.Connect(SignalUtil.ScreenExited, this, nameof(OnScreenExited));
 
-            Connect("body_entered", this, "OnBulletBodyEntered");
+            Connect(SignalUtil.BodyEntered, this, nameof(OnBulletBodyEntered));
         }
 
         /*

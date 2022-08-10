@@ -23,7 +23,7 @@ namespace Asteroids.Rock.Interface
 
             _gameManager = GetNode<GameManager>("/root/World") ?? throw new ArgumentNullException(nameof(_gameManager));
             _visibilityNotifier = GetNode<VisibilityNotifier2D>("VisibilityNotifier") ?? throw new ArgumentNullException(nameof(_visibilityNotifier));
-            _visibilityNotifier.Connect("screen_exited", this, "OnScreenExited");
+            _visibilityNotifier.Connect(SignalUtil.ScreenExited, this, nameof(OnScreenExited));
         }
         
         /*

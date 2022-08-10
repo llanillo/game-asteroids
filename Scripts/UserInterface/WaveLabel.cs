@@ -12,9 +12,9 @@ namespace Asteroids.UserInterface
         {
             _visibleTimer = GetNode<Timer>("VisibleTimer") ?? throw new ArgumentNullException(nameof(_visibleTimer));
             _waveLabel = GetNode<Label>("Label") ?? throw new ArgumentNullException(nameof(_waveLabel));
-            
+
             _waveLabel.Hide();
-            _visibleTimer.Connect("timeout", this, "OnVisibleTimerTimeout");
+            _visibleTimer.Connect(SignalUtil.Timeout, this, nameof(OnVisibleTimerTimeout));
         }
 
         /*

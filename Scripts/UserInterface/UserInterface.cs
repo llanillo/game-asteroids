@@ -24,8 +24,8 @@ namespace Asteroids.UserInterface
         
         
             _scoreLabel.Hide();
-            _messageTimer.Connect("timeout", this, "OnMessageTimerTimeout");
-            _playButton.Connect("pressed", this, "OnPlayButtonPressed");
+            _messageTimer.Connect(SignalUtil.Timeout, this, nameof(OnMessageTimerTimeout));
+            _playButton.Connect(SignalUtil.Pressed, this, nameof(OnPlayButtonPressed));
         }
 
         /*
@@ -44,7 +44,7 @@ namespace Asteroids.UserInterface
         public async void GameOver()
         {
             ShowMessage("Game Over");
-            await ToSignal(_messageTimer, "timeout"); // Wait for message timer timeout signal before continue
+            await ToSignal(_messageTimer, SignalUtil.Timeout); // Wait for message timer timeout signal before continue
             _creditsVBox.Show();
             _playButton.Show();
             _messageLabel.Text = "Asteroids";

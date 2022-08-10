@@ -15,7 +15,7 @@ namespace Asteroids.Player.Controllers.Attack
         {
             base._Ready();
             _specialTimer = GetNode<Timer>("../../Timers/SpecialTimer") ?? throw new ArgumentNullException(nameof(_specialTimer));
-            _specialTimer.Connect("timeout", this, "OnSpecialTimerTimeout");
+            _specialTimer.Connect(SignalUtil.Timeout, this, nameof(OnSpecialTimerTimeout));
         }
 
         /*
